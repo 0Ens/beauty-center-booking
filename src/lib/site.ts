@@ -10,6 +10,8 @@
 // kontrolünden sonraki kodu "asla çalışmaz" (never) diye işaretlerdi.
 type SiteConfig = {
   name: string;
+  /** KVKK metnindeki "veri sorumlusu": vergi levhasındaki resmi ad/unvan */
+  legalName: string;
   shortName: string;
   description: string;
   phone: string;
@@ -22,6 +24,8 @@ type SiteConfig = {
 
 export const site: SiteConfig = {
   name: "Demo Güzellik Merkezi",
+  // TODO (yayından önce): vergi levhasına göre kesinleştir (şahıs işletmesi mi, şirket mi?)
+  legalName: "Demo Güzellik Merkezi (hayali işletme)",
   shortName: "Demo Güzellik",
   description:
     "Demo Güzellik Merkezi: kişiye özel cilt bakımı, kaş ve kirpik uygulamaları. Online randevu alın.",

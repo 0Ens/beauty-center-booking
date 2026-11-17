@@ -70,7 +70,10 @@ export default async function Footer() {
       </div>
 
       <div className="border-t border-blush-300/60 py-5 text-center text-xs text-ink-soft">
-        © <CurrentYear /> {site.name}. Tüm hakları saklıdır.
+        © <CurrentYear /> {site.name}. Tüm hakları saklıdır. ·{" "}
+        <Link href="/kvkk" className="underline hover:text-brand-700">
+          KVKK Aydınlatma Metni
+        </Link>
       </div>
     </footer>
   );

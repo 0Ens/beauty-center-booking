@@ -96,9 +96,7 @@ export async function bookAppointment(_prev: BookingState, formData: FormData): 
       serviceName: service.name,
       date: tarih,
       time,
-      name,
-      phone,
-      note,
+      // ad, telefon, not BİLEREK yok (KVKK: e-postaya kişisel veri yazmıyoruz)
     }),
   );
 

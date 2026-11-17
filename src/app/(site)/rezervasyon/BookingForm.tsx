@@ -14,6 +14,7 @@
  * Form gönderildikten sonra React alanları sıfırlar; değerleri korumak için
  * state.values'u defaultValue olarak veriyoruz.
  */
+import Link from "next/link";
 import { useActionState } from "react";
 import { bookAppointment } from "./actions";
 import { initialBookingState, type BookingFieldName, type BookingState } from "./bookingState";
@@ -132,9 +133,13 @@ export default function BookingForm({ slug, date, dateLabel, slots }: Props) {
             rows={3}
             maxLength={500}
             defaultValue={values?.note}
-            aria-describedby="note-error"
+            aria-describedby="note-hint note-error"
             className={inputClass}
           />
+          {/* KVKK: sağlık verisi "özel nitelikli" veri; hiç toplamamak en güvenlisi */}
+          <p id="note-hint" className="mt-1 text-xs text-ink-soft">
+            Lütfen sağlık bilgisi (hastalık, ilaç, hamilelik vb.) yazmayın; gerekiyorsa randevuda konuşalım.
+          </p>
           <FieldError state={state} name="note" />
         </div>
 
@@ -148,9 +153,17 @@ export default function BookingForm({ slug, date, dateLabel, slots }: Props) {
               aria-describedby="kvkk-error"
               className="mt-0.5 size-5 shrink-0 accent-brand-700"
             />
+            {/*
+              "Kabul ediyorum" (açık rıza) DEĞİL, "okudum" (aydınlatma): randevu verisi
+              sözleşme gereği işleniyor (KVKK 5/2-c). Ayrıntı: /kvkk sayfasındaki açıklama.
+              Yeni sekmede açılıyor: formdaki ad/telefon kaybolmasın.
+            */}
             <span>
-              Adımın ve telefon numaramın randevumun oluşturulması ve randevumla ilgili benimle iletişime
-              geçilmesi amacıyla işlenmesini kabul ediyorum.
+              Kişisel verilerimin randevum için nasıl işlendiğini anlatan{" "}
+              <Link href="/kvkk" target="_blank" rel="noopener" className="font-medium text-brand-700 underline">
+                KVKK Aydınlatma Metni
+              </Link>
+              &apos;ni okudum.
             </span>
           </label>
           <FieldError state={state} name="kvkk" />

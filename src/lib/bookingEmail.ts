@@ -1,10 +1,14 @@
 /*
  * SALON SAHİBİNE GİDEN "YENİ RANDEVU TALEBİ" E-POSTASININ METNİ
  *
- * Neden HTML değil düz metin?
- * Ad ve not alanlarını MÜŞTERİ yazıyor. HTML mail yapsaydık biri adına
- * <a href="kötü-site">Tıklayın</a> yazıp salon sahibinin mailine sahte bir link
- * koyabilirdi (HTML enjeksiyonu). Düz metinde her şey sadece yazı olarak görünür.
+ * KVKK — VERİ EN AZA İNDİRME:
+ * E-posta Resend (ABD) üzerinden gidiyor ve salon sahibinin posta kutusunda duruyor.
+ * Müşterinin ADI, TELEFONU ve NOTU bu yüzden e-postada YOK: bunlar sadece
+ * veritabanında; salon sahibi yönetim panelinde görüyor. E-postadaki işlem + tarih +
+ * randevu no tek başına kimseyi tanımlamadığı için kişisel veri sayılmaz.
+ *
+ * Düz metin (HTML değil): ileride müşterinin yazdığı bir şey eklenirse bile
+ * HTML enjeksiyonu (sahte link) olamaz.
  *
  * Saf fonksiyonlar → src/lib/bookingEmail.test.ts ile test ediliyor.
  */
@@ -15,9 +19,6 @@ export type BookingSummary = {
   serviceName: string;
   date: string; // "2026-11-24"
   time: string; // "15:00"
-  name: string;
-  phone: string; // sadece rakamlar: "05001234567"
-  note: string;
 };
 
 /** "Yeni randevu talebi: Kirpik Lifting – 24 Kasım 2026 Salı 15:00" */
@@ -32,11 +33,9 @@ export function bookingEmailText(b: BookingSummary): string {
     `İşlem:   ${b.serviceName}`,
     `Tarih:   ${formatDayLong(b.date)}`,
     `Saat:    ${b.time}`,
-    "",
-    `Müşteri: ${b.name}`,
-    `Telefon: ${b.phone}`,
-    `Not:     ${b.note || "-"}`,
-    "",
     `Randevu no: ${b.id}`,
+    "",
+    "Müşterinin adını ve telefonunu yönetim panelinin Randevular sayfasında görebilirsiniz.",
+    "(Kişisel bilgiler güvenlik için e-postaya yazılmıyor.)",
   ].join("\n");
 }

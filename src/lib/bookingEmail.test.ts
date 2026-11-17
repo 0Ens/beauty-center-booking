@@ -6,9 +6,6 @@ const booking: BookingSummary = {
   serviceName: "Kirpik Lifting",
   date: "2026-11-24",
   time: "15:00",
-  name: "Ayşe Yılmaz",
-  phone: "05321234567",
-  note: "",
 };
 
 describe("bookingEmailSubject", () => {
@@ -18,14 +15,28 @@ describe("bookingEmailSubject", () => {
 });
 
 describe("bookingEmailText", () => {
-  it("müşteri bilgileri ve randevu no var", () => {
+  it("işlem, tarih, saat ve randevu no var", () => {
     const text = bookingEmailText(booking);
-    expect(text).toContain("Müşteri: Ayşe Yılmaz");
-    expect(text).toContain("Telefon: 05321234567");
+    expect(text).toContain("İşlem:   Kirpik Lifting");
+    expect(text).toContain("24 Kasım 2026 Salı");
+    expect(text).toContain("Saat:    15:00");
     expect(text).toContain("Randevu no: 42");
   });
 
-  it("not boşsa tire", () => {
-    expect(bookingEmailText(booking)).toContain("Not:     -");
+  it("KVKK: müşteri bilgisi alanı YOK, panele yönlendiriyor", () => {
+    const text = bookingEmailText(booking);
+    expect(text).not.toContain("Müşteri:");
+    expect(text).not.toContain("Telefon:");
+    expect(text).not.toContain("Not:");
+    expect(text).toContain("yönetim panelinin Randevular sayfasında");
+  });
+
+  it("KVKK: fonksiyona fazladan kişisel veri gelse bile e-postaya girmez", () => {
+    // TypeScript'i atlatıp ad/telefon gönderen eski bir kod parçası düşünelim
+    const leaky = { ...booking, name: "Ayşe Yılmaz", phone: "05321234567", note: "hamileyim" } as BookingSummary;
+    const text = bookingEmailText(leaky) + bookingEmailSubject(leaky);
+    expect(text).not.toContain("Ayşe");
+    expect(text).not.toContain("05321234567");
+    expect(text).not.toContain("hamile");
   });
 });
