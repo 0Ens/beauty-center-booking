@@ -1,10 +1,11 @@
 import Link from "next/link";
 import BeforeAfterCard from "../BeforeAfterCard";
 import { getBeforeAfterEntries } from "@/data/beforeAfter";
+import { pickHomeFeatured } from "@/lib/homeFeatured";
 
 export default async function BeforeAfterTeaser() {
-  /* Ana sayfa vitrini: sadece "featured" işaretli ilk 3 örnek */
-  const featured = (await getBeforeAfterEntries()).filter((item) => item.featured).slice(0, 3);
+  /* Ana sayfa vitrini: kural lib/homeFeatured.ts'te (panel de aynısını kullanıyor) */
+  const featured = pickHomeFeatured(await getBeforeAfterEntries());
 
   return (
     <section className="bg-white py-20">

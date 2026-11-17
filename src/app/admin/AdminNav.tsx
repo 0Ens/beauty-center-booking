@@ -13,6 +13,7 @@ const links = [
   { href: "/admin/izin-gunleri", label: "İzin günleri" },
   { href: "/admin/calisma-saatleri", label: "Çalışma saatleri" },
   { href: "/admin/islemler", label: "İşlemler" },
+  { href: "/admin/oncesi-sonrasi", label: "Öncesi/Sonrası" },
 ] as const;
 
 export default function AdminNav() {

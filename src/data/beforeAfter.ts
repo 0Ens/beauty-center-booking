@@ -65,7 +65,8 @@ export async function getBeforeAfterEntries(): Promise<BeforeAfterEntry[]> {
   const { data, error } = await supabase
     .from("before_after")
     .select("*, services!inner(slug, category)")
-    .order("sort_order");
+    .order("sort_order")
+    .order("id", { ascending: false }); // sıra eşitse YENİ önce (panel de aynı sırayı kullanıyor)
 
   if (error) throw new Error(`Öncesi/sonrası örnekleri yüklenemedi: ${error.message}`);
   return (data as BeforeAfterRow[]).map(toEntry);
