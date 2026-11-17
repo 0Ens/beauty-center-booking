@@ -32,7 +32,7 @@
   --font-serif: var(--font-cormorant), Georgia, serif;
   --font-sans: var(--font-jost), system-ui, sans-serif;
   /* Marka el yazısı → Tailwind'de `font-script` sınıfı olarak kullanılır */
-  --font-script: var(--font-pinyon), cursive;
+  --font-script: var(--font-luxurious), cursive;
 }
 
 html {
