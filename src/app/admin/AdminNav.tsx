@@ -12,6 +12,7 @@ const links = [
   { href: "/admin", label: "Randevular" },
   { href: "/admin/izin-gunleri", label: "İzin günleri" },
   { href: "/admin/calisma-saatleri", label: "Çalışma saatleri" },
+  { href: "/admin/islemler", label: "İşlemler" },
 ] as const;
 
 export default function AdminNav() {
@@ -21,7 +22,8 @@ export default function AdminNav() {
     <nav className="flex flex-wrap items-center justify-between gap-3 border-b border-blush-200 pb-4">
       <ul className="flex flex-wrap gap-2">
         {links.map((l) => {
-          const active = pathname === l.href;
+          // /admin/islemler/5 de "İşlemler" sekmesini vurgulasın; /admin ise sadece kendisi
+          const active = l.href === "/admin" ? pathname === l.href : pathname.startsWith(l.href);
           return (
             <li key={l.href}>
               <Link

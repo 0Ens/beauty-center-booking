@@ -1,20 +1,11 @@
 import Link from "next/link";
-import { Clock, Droplets, Eye, Flower2, Leaf, Sparkles, Sun, type LucideIcon } from "lucide-react";
-import type { Service, ServiceIconName } from "@/data/services";
-
-// Veride ikonları metin olarak ("droplets") tutuyoruz, çünkü veritabanına
-// bir React bileşeni kaydedemeyiz. Burada metni ikon bileşenine çeviriyoruz.
-const icons: Record<ServiceIconName, LucideIcon> = {
-  droplets: Droplets,
-  sparkles: Sparkles,
-  leaf: Leaf,
-  sun: Sun,
-  flower: Flower2,
-  eye: Eye,
-};
+import { Clock } from "lucide-react";
+import type { Service } from "@/data/services";
+import { serviceIcons } from "./serviceIcons";
 
 export default function ServiceCard({ service }: { service: Service }) {
-  const Icon = icons[service.icon];
+  // Veride ikon bir metin ("droplets"); serviceIcons onu ikon bileşenine çeviriyor
+  const Icon = serviceIcons[service.icon];
 
   return (
     <Link

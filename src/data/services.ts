@@ -3,10 +3,10 @@
  * Örnek veriler supabase/seed.sql dosyasında. Salon sahibi ileride panelden düzenleyecek.
  */
 import { cacheLife, cacheTag } from "next/cache";
+import { isIconName, type ServiceIconName } from "@/components/serviceIcons";
 import { supabase } from "@/lib/supabase";
 
-const iconNames = ["droplets", "sparkles", "leaf", "sun", "flower", "eye"] as const;
-export type ServiceIconName = (typeof iconNames)[number];
+export type { ServiceIconName };
 
 /** Sitede kullandığımız biçim (camelCase) */
 export type Service = {
@@ -25,7 +25,7 @@ export type Service = {
 };
 
 /** Veritabanından gelen satırın biçimi (snake_case, SQL'deki sütun adları) */
-type ServiceRow = {
+export type ServiceRow = {
   id: number;
   slug: string;
   name: string;
@@ -40,14 +40,8 @@ type ServiceRow = {
   price_max: number | null;
 };
 
-// Veritabanında icon sadece bir "text". Biri panelden tanımadığımız bir değer
-// girerse site çökmesin diye kontrol ediyoruz.
-function isIconName(value: string): value is ServiceIconName {
-  return (iconNames as readonly string[]).includes(value);
-}
-
-/** Satır (snake_case) → sitedeki biçim (camelCase) */
-function toService(row: ServiceRow): Service {
+/** Satır (snake_case) → sitedeki biçim (camelCase). Panel de kullanıyor (adminServices.ts) */
+export function toService(row: ServiceRow): Service {
   return {
     id: row.id,
     slug: row.slug,
