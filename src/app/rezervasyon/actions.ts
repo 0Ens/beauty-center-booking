@@ -12,11 +12,13 @@
  */
 import { refresh } from "next/cache";
 import { redirect } from "next/navigation";
+import { after } from "next/server";
 import { z } from "zod";
 import { getDaySlots } from "@/data/availability";
 import { getServiceBySlug } from "@/data/services";
 import { bookingErrorMessage, SLOT_UNAVAILABLE } from "@/lib/bookingErrors";
 import { toIstanbulIso } from "@/lib/istanbulTime";
+import { notifyNewBooking } from "@/lib/notify";
 import { toMinutes } from "@/lib/slots";
 import { supabase } from "@/lib/supabase";
 import type { BookingState } from "./bookingState";
@@ -69,7 +71,7 @@ export async function bookAppointment(_prev: BookingState, formData: FormData): 
     return { error: SLOT_UNAVAILABLE, values: { ...values, time: "" } };
   }
 
-  const { error } = await supabase.rpc("book_appointment", {
+  const { data: bookingId, error } = await supabase.rpc("book_appointment", {
     p_service_id: service.id,
     p_starts_at: toIstanbulIso(tarih, toMinutes(time)), // "2026-11-24T13:15:00+03:00"
     p_customer_name: name,
@@ -84,6 +86,21 @@ export async function bookAppointment(_prev: BookingState, formData: FormData): 
     refresh();
     return { error: bookingErrorMessage(error), values: { ...values, time: "" } };
   }
+
+  // Salon sahibine mail: after() → müşteriye cevap gittikten SONRA çalışır.
+  // Müşteri, mail sunucusunun cevabını beklemek zorunda kalmaz; mail
+  // gönderilemese bile müşterinin randevusu zaten kaydedildi.
+  after(() =>
+    notifyNewBooking({
+      id: bookingId as number,
+      serviceName: service.name,
+      date: tarih,
+      time,
+      name,
+      phone,
+      note,
+    }),
+  );
 
   // Başarılı: onay sayfasına. URL'de kişisel veri YOK (ad/telefon yok).
   // redirect() bir hata fırlatarak çalışır → try/catch içine konmamalı.
