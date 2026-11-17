@@ -31,22 +31,23 @@ export default function Header() {
      * düşüyor → başlık büyüyor → içerik aşağı kayıyor → scrollY artıyor →
      * başlık küçülüyor... Sonsuz döngü.
      *
-     * Çözüm: header artık "fixed" (akıştan çıktı) ve altında sabit yükseklikte
-     * bir yer tutucu var. Header büyüse de küçülse de sayfa yüksekliği
-     * değişmiyor, scrollY'ye dokunan hiçbir şey kalmıyor.
-     */
-    /*
-     * HATA DERSİ 2 — yukarı çıkarken açılan boşluk
-     * Önce header "küçük/büyük" diye iki hâlliydi ve 300ms'lik animasyonla
-     * geçiyordu. Hızlı yukarı kaydırınca sayfa en üste varıyor ama header hâlâ
-     * büyümeye çalışıyor → yer tutucunun açıkta kalan kısmı boşluk olarak
-     * görünüyordu. Animasyon kaydırmanın gerisinde kalıyordu.
+     * Çözüm (kural): header'ın YÜKSEKLİĞİ hiç değişmesin. Sayfa uzunluğu
+     * sabit kalınca scroll anchoring'in düzelteceği bir şey kalmaz.
      *
-     * Çözüm: header'ın boyutunu doğrudan scrollY'den hesaplıyoruz.
+     * HATA DERSİ 2 — "fixed header + yer tutucu" neden yetmedi?
+     * Tarayıcı kaydırmayı JavaScript'ten AYRI bir iş parçacığında
+     * (compositor) yapar: içerik anında kayar, bizim scroll dinleyicimiz ise
+     * bir-iki kare SONRA çalışır. JS ile konumlanan header hep bir kare
+     * geriden geliyordu → hızlı yukarı kaydırınca altındaki yer tutucu
+     * görünüyor, hareket de takılıyordu.
+     *
+     * Asıl çözüm: header'ı tarayıcının kendisi hareket ettirsin →
+     * position: sticky + negatif top (globals.css → .site-header).
+     * JavaScript artık sadece logonun boyutunu ayarlıyor; o bir kare gecikse
+     * bile gözle görülmez, çünkü header kutusu zaten doğru yerde.
+     *
      *   shrink = scrollY / mesafe   (0 ile 1 arasına sıkıştırılmış)
      *   mesafe = büyük satır yüksekliği − küçük satır yüksekliği
-     * Böylece header tam olarak kaydırdığın kadar küçülür, yer tutucuyla
-     * aynı hızda hareket eder ve aralarında boşluk açılamaz.
      *
      * Neden useState değil? Kaydırma saniyede ~60 kez tetiklenir. Her seferinde
      * state değiştirmek tüm header'ı 60 kez yeniden render eder. Bunun yerine
@@ -86,15 +87,16 @@ export default function Header() {
   const closeMenu = () => setMenuOpen(false);
 
   return (
-    <>
-      <header
-        ref={headerRef}
-        className="fixed inset-x-0 top-0 z-40 border-b border-blush-200 bg-linear-to-b from-blush-50 to-blush-200"
-      >
-        <div className="container-page">
-          {/* Logo satırı: 3 sütunlu grid → [boş] [logo] [menü butonu].
-              Yan sütunlar eşit (1fr) olduğu için logo her ekranda tam ortada kalır.
-              Yükseklik globals.css'teki .header-row'dan geliyor (--shrink'e göre). */}
+    <header
+      ref={headerRef}
+      className="site-header z-40 border-b border-blush-200 bg-linear-to-b from-blush-50 to-blush-200"
+    >
+      <div className="container-page">
+        {/* Logo satırı: yüksekliği sabit (--header-row). İçindeki grid satırın
+            altına yaslı ve sadece ekranda görünen kısım kadar yüksek. */}
+        <div className="flex h-(--header-row) flex-col justify-end">
+          {/* 3 sütunlu grid → [boş] [logo] [menü butonu].
+              Yan sütunlar eşit (1fr) olduğu için logo her ekranda tam ortada kalır. */}
           <div className="header-row grid grid-cols-[1fr_auto_1fr] items-center">
             <span />
             <Link href="/" aria-label="Demo Güzellik Merkezi — Ana sayfa" onClick={closeMenu}>
@@ -112,64 +114,65 @@ export default function Header() {
               {menuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
-
-          {/* Masaüstü menüsü: 3 sütunlu grid → [boş] [linkler ortada] [buton sağda] */}
-          <nav aria-label="Ana menü" className="hidden h-(--header-nav) grid-cols-[1fr_auto_1fr] items-center pb-3 md:grid">
-            <span />
-            <ul className="flex items-center gap-8">
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    aria-current={isActive(link.href) ? "page" : undefined}
-                    className={`relative py-1 text-sm tracking-wide transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-center after:bg-brand-700 after:transition-transform ${
-                      isActive(link.href)
-                        ? "text-brand-700 after:scale-x-100"
-                        : "text-ink hover:text-brand-700 after:scale-x-0 hover:after:scale-x-100"
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <Link href="/rezervasyon" className="btn-primary justify-self-end">
-              Randevu Al
-            </Link>
-          </nav>
         </div>
 
-        {/* Mobil menü: sadece menuOpen true iken ekrana basılır */}
-        {menuOpen && (
-          <nav id="mobile-menu" aria-label="Mobil menü" className="border-t border-blush-200 bg-white md:hidden">
-            <ul className="container-page flex flex-col py-2">
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    onClick={closeMenu}
-                    aria-current={isActive(link.href) ? "page" : undefined}
-                    className={`block border-b border-blush-100 py-3 ${
-                      isActive(link.href) ? "font-medium text-brand-700" : "text-ink"
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-              <li className="py-4">
-                <Link href="/rezervasyon" onClick={closeMenu} className="btn-primary w-full">
-                  Randevu Al
+        {/* Masaüstü menüsü: 3 sütunlu grid → [boş] [linkler ortada] [buton sağda] */}
+        <nav aria-label="Ana menü" className="hidden h-(--header-nav) grid-cols-[1fr_auto_1fr] items-center pb-3 md:grid">
+          <span />
+          <ul className="flex items-center gap-8">
+            {navLinks.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  aria-current={isActive(link.href) ? "page" : undefined}
+                  className={`relative py-1 text-sm tracking-wide transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-center after:bg-brand-700 after:transition-transform ${
+                    isActive(link.href)
+                      ? "text-brand-700 after:scale-x-100"
+                      : "text-ink hover:text-brand-700 after:scale-x-0 hover:after:scale-x-100"
+                  }`}
+                >
+                  {link.label}
                 </Link>
               </li>
-            </ul>
-          </nav>
-        )}
-      </header>
+            ))}
+          </ul>
+          <Link href="/rezervasyon" className="btn-primary justify-self-end">
+            Randevu Al
+          </Link>
+        </nav>
+      </div>
 
-      {/* Yer tutucu: fixed header'ın altında kalan içerik görünmesin diye,
-          header'ın BÜYÜK hâli kadar boşluk bırakır. Yüksekliği hiç değişmez. */}
-      <div aria-hidden className="h-[calc(var(--header-row)+var(--header-nav))]" />
-    </>
+      {/* Mobil menü: sadece menuOpen true iken ekrana basılır */}
+      {menuOpen && (
+        // absolute: menü açılınca header uzamasın, sayfanın üstüne binsin
+        <nav
+          id="mobile-menu"
+          aria-label="Mobil menü"
+          className="absolute inset-x-0 top-full border-y border-blush-200 bg-white shadow-md md:hidden"
+        >
+          <ul className="container-page flex flex-col py-2">
+            {navLinks.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  onClick={closeMenu}
+                  aria-current={isActive(link.href) ? "page" : undefined}
+                  className={`block border-b border-blush-100 py-3 ${
+                    isActive(link.href) ? "font-medium text-brand-700" : "text-ink"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+            <li className="py-4">
+              <Link href="/rezervasyon" onClick={closeMenu} className="btn-primary w-full">
+                Randevu Al
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      )}
+    </header>
   );
 }

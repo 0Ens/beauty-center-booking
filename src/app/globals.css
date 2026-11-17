@@ -37,9 +37,7 @@
 
 /*
  * BAŞLIK (HEADER) YÜKSEKLİKLERİ
- * Header sabit (fixed) olduğu için sayfa akışında yer kaplamaz; altına aynı
- * yükseklikte boş bir "yer tutucu" (spacer) koyuyoruz. İkisi de bu değerleri
- * kullanır → hiçbir zaman birbirinden farklı olamazlar.
+ * Header'ın yüksekliği HİÇ değişmez (logo satırı + menü satırı).
  * Logo boyutunu değiştirirsen bu değerleri de güncelle.
  */
 :root {
@@ -55,12 +53,26 @@
 }
 
 /*
- * KAYDIRMAYA BAĞLI KÜÇÜLME
+ * YAPIŞKAN (STICKY) HEADER — negatif top hilesi
+ * Header sayfa akışında normal bir eleman. Kaydırınca sayfayla birlikte
+ * yukarı gider; ama top NEGATİF olduğu için, (büyük − küçük) kadar yukarı
+ * çıktıktan sonra yapışıp kalır. Ekranda sadece alt kısmı (küçük logo
+ * satırı + menü) görünür.
+ * Hareketi tarayıcının kendisi yaptığı için kaydırmayla aynı karede,
+ * kusursuz akıcı. JavaScript sadece logonun boyutunu ayarlıyor.
+ */
+.site-header {
+  position: sticky;
+  top: calc(var(--header-row-compact) - var(--header-row));
+}
+
+/*
+ * KAYDIRMAYA BAĞLI LOGO KÜÇÜLMESİ
  * --shrink: 0 = sayfa en üstte (büyük logo), 1 = tamamen küçülmüş.
  * Header.tsx her kaydırmada bu sayıyı günceller; aradaki her değer
- * (0.25, 0.5...) ara bir boyut demek. Boyut doğrudan kaydırmaya bağlı
- * olduğu için animasyon (transition) yok → header asla kaydırmanın
- * gerisinde kalmaz, altında boşluk açılmaz.
+ * (0.25, 0.5...) ara bir boyut demek.
+ * .header-row, logo satırının EKRANDA GÖRÜNEN kısmı kadar yüksek ve satırın
+ * altına yaslı → logo her zaman görünen alanın ortasında kalır.
  * Footer'daki logoda --shrink tanımlı değil → varsayılan değer 0 (büyük hâl).
  */
 .header-row {
