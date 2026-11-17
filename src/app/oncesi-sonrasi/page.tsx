@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
-import BeforeAfterCard from "@/components/BeforeAfterCard";
-import { beforeAfterItems } from "@/data/beforeAfter";
-import { serviceCategories } from "@/data/services";
+import BeforeAfterGallery from "@/components/BeforeAfterGallery";
 
 export const metadata: Metadata = {
   title: "Öncesi & Sonrası",
@@ -10,7 +8,8 @@ export const metadata: Metadata = {
 };
 
 /*
- * GEÇİCİ: Kategori düğmeleri henüz çalışmıyor (sıradaki adım).
+ * Sayfa SUNUCU bileşeni (metadata için). Etkileşimli kısım, yani kategori
+ * düğmeleri ve filtrelenen liste, "use client" olan BeforeAfterGallery'de.
  */
 export default function BeforeAfterPage() {
   return (
@@ -21,24 +20,7 @@ export default function BeforeAfterPage() {
       />
 
       <section className="container-page py-12">
-        <div className="mb-10 flex flex-wrap justify-center gap-2">
-          {["Tümü", ...serviceCategories].map((category, i) => (
-            <span
-              key={category}
-              className={`rounded-full px-5 py-2 text-sm ${
-                i === 0 ? "bg-brand-700 text-white" : "border border-blush-300 bg-white text-ink"
-              }`}
-            >
-              {category}
-            </span>
-          ))}
-        </div>
-
-        <div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-          {beforeAfterItems.map((item) => (
-            <BeforeAfterCard key={item.id} item={item} />
-          ))}
-        </div>
+        <BeforeAfterGallery />
       </section>
     </>
   );
