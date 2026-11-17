@@ -6,7 +6,8 @@ import { cacheLife, cacheTag } from "next/cache";
 import { supabase } from "@/lib/supabase";
 import { toHoursLines, type HoursLine, type WorkingHoursRow } from "@/lib/hours";
 
-export async function getHoursLines(): Promise<HoursLine[]> {
+/** 7 satır, olduğu gibi (rezervasyonda boş saat hesabı bunu kullanır) */
+export async function getWorkingHoursRows(): Promise<WorkingHoursRow[]> {
   "use cache";
   cacheLife("hours");
   cacheTag("working-hours");
@@ -14,5 +15,10 @@ export async function getHoursLines(): Promise<HoursLine[]> {
   const { data, error } = await supabase.from("working_hours").select("*").order("weekday");
 
   if (error) throw new Error(`Çalışma saatleri yüklenemedi: ${error.message}`);
-  return toHoursLines(data as WorkingHoursRow[]);
+  return data as WorkingHoursRow[];
+}
+
+/** Footer ve iletişim sayfası için: "Pazartesi – Cumartesi: 10:00 – 19:00" */
+export async function getHoursLines(): Promise<HoursLine[]> {
+  return toHoursLines(await getWorkingHoursRows());
 }

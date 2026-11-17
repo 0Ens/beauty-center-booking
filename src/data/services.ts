@@ -10,6 +10,7 @@ export type ServiceIconName = (typeof iconNames)[number];
 
 /** Sitede kullandığımız biçim (camelCase) */
 export type Service = {
+  id: number; // randevu kaydederken veritabanına bu gönderilir
   slug: string; // URL'de görünen ad: /islemlerimiz/derin-cilt-temizligi
   name: string;
   category: string;
@@ -25,6 +26,7 @@ export type Service = {
 
 /** Veritabanından gelen satırın biçimi (snake_case, SQL'deki sütun adları) */
 type ServiceRow = {
+  id: number;
   slug: string;
   name: string;
   category: string;
@@ -47,6 +49,7 @@ function isIconName(value: string): value is ServiceIconName {
 /** Satır (snake_case) → sitedeki biçim (camelCase) */
 function toService(row: ServiceRow): Service {
   return {
+    id: row.id,
     slug: row.slug,
     name: row.name,
     category: row.category,
