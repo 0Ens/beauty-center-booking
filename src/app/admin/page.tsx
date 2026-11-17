@@ -7,8 +7,8 @@ import { formatDayLong } from "@/lib/format";
 import { formatPhone, toInternational } from "@/lib/phone";
 import { site } from "@/lib/site";
 import { getUpcomingAppointments, type AdminAppointment } from "@/data/adminAppointments";
+import AdminNav from "./AdminNav";
 import StatusActions from "./StatusActions";
-import { signOut } from "./actions";
 
 /*
  * PANEL ANA SAYFASI: bugün ve sonrası için randevular
@@ -37,16 +37,10 @@ async function Dashboard() {
 
   return (
     <div className="space-y-10">
-      <header className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h1 className="font-serif text-3xl font-semibold">Randevular</h1>
-          <p className="text-sm text-ink-soft">Giriş yapan hesap: {email}</p>
-        </div>
-        <form action={signOut}>
-          <button type="submit" className="btn-secondary py-2">
-            Çıkış Yap
-          </button>
-        </form>
+      <AdminNav />
+      <header>
+        <h1 className="font-serif text-3xl font-semibold">Randevular</h1>
+        <p className="text-sm text-ink-soft">Giriş yapan hesap: {email}</p>
       </header>
 
       <section className="space-y-4">
