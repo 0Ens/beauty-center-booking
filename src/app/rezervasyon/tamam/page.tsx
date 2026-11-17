@@ -30,7 +30,8 @@ export default function BookingDonePage({ searchParams }: PageProps<"/rezervasyo
             <Summary searchParams={searchParams} />
           </Suspense>
           <p className="mt-6 text-sm text-ink-soft">
-            Randevunuz salonumuzun onayını bekliyor. Değişiklik ya da iptal için bizi arayabilirsiniz
+            Talebiniz salonumuza ulaştı. Uygunluğu kontrol ettikten sonra randevunuzu onaylamak için
+            sizinle iletişime geçeceğiz. Değişiklik ya da iptal için bizi arayabilirsiniz
             {site.phone && (
               <>
                 :{" "}
