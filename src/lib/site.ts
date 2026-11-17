@@ -17,7 +17,7 @@ type SiteConfig = {
   instagram: string;
   address: string;
   mapsUrl: string;
-  hours: { days: string; time: string }[];
+  // Çalışma saatleri artık veritabanında (working_hours) → src/data/workingHours.ts
 };
 
 export const site: SiteConfig = {
@@ -35,11 +35,6 @@ export const site: SiteConfig = {
   address: "Örnek Mah. Demo Sk. No: 1, 00000 Merkez/Örnekşehir",
   /** Google Haritalar'daki "Paylaş" bağlantısı */
   mapsUrl: "",
-
-  hours: [
-    { days: "Pazartesi – Cumartesi", time: "10:00 – 19:00" },
-    { days: "Pazar", time: "Kapalı" },
-  ],
 };
 
 export const navLinks = [

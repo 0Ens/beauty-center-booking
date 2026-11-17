@@ -3,13 +3,15 @@ import { Clock, MapPin, Phone } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import Instagram from "@/components/InstagramIcon";
 import { site, whatsappLink } from "@/lib/site";
+import { getHoursLines } from "@/data/workingHours";
 
 export const metadata: Metadata = {
   title: "İletişim",
   description: "Adres, telefon ve çalışma saatlerimiz.",
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const hours = await getHoursLines();
   const wa = whatsappLink();
   // Not: Bilgiler site.ts'ten geliyor. Boş olanlar ekranda "yakında eklenecek" olarak görünür.
   const missing = "Yakında eklenecek";
@@ -66,7 +68,7 @@ export default function ContactPage() {
           <div>
             <h2 className="font-serif text-xl font-semibold">Çalışma Saatleri</h2>
             <ul className="text-ink-soft">
-              {site.hours.map((h) => (
+              {hours.map((h) => (
                 <li key={h.days}>
                   {h.days}: <span className="text-ink">{h.time}</span>
                 </li>

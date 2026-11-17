@@ -3,10 +3,14 @@ import { Clock, MapPin, Phone } from "lucide-react";
 import Logo from "./Logo";
 import CurrentYear from "./CurrentYear";
 import { navLinks, site } from "@/lib/site";
+import { getHoursLines } from "@/data/workingHours";
 
 // "use client" yok → bu bir Server Component. Sadece HTML üretir,
 // tarayıcıya hiç JavaScript gönderilmez. Etkileşim yoksa varsayılan bu olmalı.
-export default function Footer() {
+// async: çalışma saatleri veritabanından geliyor.
+export default async function Footer() {
+  const hours = await getHoursLines();
+
   return (
     <footer className="mt-24 border-t border-blush-200 bg-linear-to-b from-blush-100 to-blush-200/60">
       <div className="container-page grid gap-10 py-14 md:grid-cols-3">
@@ -53,7 +57,7 @@ export default function Footer() {
                 </a>
               </li>
             )}
-            {site.hours.map((h) => (
+            {hours.map((h) => (
               <li key={h.days} className="flex items-center justify-center gap-2 md:justify-start">
                 <Clock size={16} className="shrink-0 text-brand-600" aria-hidden />
                 <span>
