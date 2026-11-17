@@ -38,3 +38,25 @@ values
    'Kirpikler kökten kıvrılarak daha uzun ve belirgin görünmesi sağlanır. Takma kirpik ya da her gün kirpik kıvırıcı kullanmadan doğal bir görünüm sunar.',
    array['Düz kirpikleri olanlar', 'Makyajsız da bakımlı görünmek isteyenler'],
    'eye', true, 60);
+
+-- ÖNCESİ / SONRASI örnekleri
+-- service_id elle yazılmıyor (id'leri ezbere bilemeyiz): slug ile services
+-- tablosuna JOIN yapıp id'yi oradan alıyoruz.
+insert into before_after
+  (service_id, title, description, taken_on, before_url, after_url, is_featured, sort_order)
+select s.id, v.title, v.description, v.taken_on::date, v.before_url, v.after_url, v.is_featured, v.sort_order
+from (values
+  ('akne-bakimi', 'Akne Bakımı',
+   '6 seanslık bakım sonrası aktif sivilceler ve kızarıklık belirgin şekilde azaldı.',
+   '2026-10-01', '/ornek/akne-oncesi.svg', '/ornek/akne-sonrasi.svg', true, 10),
+  ('leke-karsiti-bakim', 'Leke Karşıtı Bakım',
+   'Güneş lekeleri açıldı, cilt tonu daha eşit bir görünüm kazandı.',
+   '2026-09-01', '/ornek/leke-oncesi.svg', '/ornek/leke-sonrasi.svg', true, 20),
+  ('nem-ve-isilti-bakimi', 'Nem ve Işıltı Bakımı',
+   'Tek seansta mat ve yorgun görünen cilde nem ve ışıltı kazandırıldı.',
+   '2026-08-01', '/ornek/nem-oncesi.svg', '/ornek/nem-sonrasi.svg', false, 30),
+  ('kas-laminasyonu', 'Kaş Laminasyonu',
+   'Seyrek ve dağınık kaşlar daha dolgun ve düzenli bir şekle kavuştu.',
+   '2026-10-01', '/ornek/kas-oncesi.svg', '/ornek/kas-sonrasi.svg', true, 40)
+) as v(slug, title, description, taken_on, before_url, after_url, is_featured, sort_order)
+join services s on s.slug = v.slug;
