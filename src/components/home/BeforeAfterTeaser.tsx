@@ -1,8 +1,10 @@
 import Link from "next/link";
+import BeforeAfterCard from "../BeforeAfterCard";
+import { beforeAfterItems } from "@/data/beforeAfter";
 
-/*
- * GEÇİCİ: Aşama 2'de bu bölüme sürüklenebilir öncesi/sonrası kaydırıcısı gelecek.
- */
+/* Ana sayfa vitrini: sadece "featured" işaretli ilk 3 örnek */
+const featured = beforeAfterItems.filter((item) => item.featured).slice(0, 3);
+
 export default function BeforeAfterTeaser() {
   return (
     <section className="bg-white py-20">
@@ -15,17 +17,9 @@ export default function BeforeAfterTeaser() {
           </p>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {[1, 2, 3].map((i) => (
-            <div
-              key={i}
-              className="relative flex aspect-[4/5] items-center justify-center overflow-hidden rounded-3xl border-2 border-dashed border-blush-300 bg-blush-50"
-            >
-              <div className="absolute inset-y-0 left-1/2 w-0.5 -translate-x-1/2 bg-white shadow" />
-              <span className="relative rounded-full bg-white px-4 py-2 text-xs text-ink-soft shadow">
-                Kaydırıcı · Aşama 2
-              </span>
-            </div>
+        <div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+          {featured.map((item) => (
+            <BeforeAfterCard key={item.id} item={item} />
           ))}
         </div>
 

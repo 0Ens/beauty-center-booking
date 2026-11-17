@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
+import BeforeAfterCard from "@/components/BeforeAfterCard";
+import { beforeAfterItems } from "@/data/beforeAfter";
 import { serviceCategories } from "@/data/services";
 
 export const metadata: Metadata = {
@@ -8,8 +10,7 @@ export const metadata: Metadata = {
 };
 
 /*
- * GEÇİCİ: Aşama 2'de kategori filtresi çalışır hale gelecek ve
- * kartların içine sürüklenebilir kaydırıcı eklenecek.
+ * GEÇİCİ: Kategori düğmeleri henüz çalışmıyor (sıradaki adım).
  */
 export default function BeforeAfterPage() {
   return (
@@ -33,14 +34,9 @@ export default function BeforeAfterPage() {
           ))}
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {[1, 2, 3].map((i) => (
-            <div
-              key={i}
-              className="flex aspect-[4/5] items-center justify-center rounded-3xl border-2 border-dashed border-blush-300 bg-white text-xs text-ink-soft"
-            >
-              Kaydırıcı · Aşama 2
-            </div>
+        <div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+          {beforeAfterItems.map((item) => (
+            <BeforeAfterCard key={item.id} item={item} />
           ))}
         </div>
       </section>
