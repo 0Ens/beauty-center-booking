@@ -15,38 +15,30 @@ import logoMark from "../../public/logo-mark-bold.png";
  * (sayfa yüklenirken içerik zıplamaz = CLS olmaz).
  */
 type LogoProps = {
-  /** Sayfa aşağı kaydırılınca logo küçülür ve yan yana dizilir */
-  compact?: boolean;
   /** Sayfanın en üstündeki logo → hemen yüklensin (lazy değil) */
   eager?: boolean;
 };
 
-export default function Logo({ compact = false, eager = false }: LogoProps) {
+export default function Logo({ eager = false }: LogoProps) {
   return (
-    <span
-      className={`flex items-center gap-3 leading-none ${compact ? "" : "md:flex-col md:gap-2"}`}
-    >
+    /*
+     * Boyutlar globals.css'teki logo-* sınıflarından geliyor. Header içindeyken
+     * --shrink değişkenine göre kaydırmayla birlikte küçülüyor.
+     * Masaüstünde logo HER ZAMAN alt alta (flex-col): flex-direction yumuşakça
+     * değişemez, bir anda zıplar. Bu yüzden yalnızca boyutları değiştiriyoruz.
+     */
+    <span className="logo-stack flex items-center leading-none md:flex-col">
       <Image
         src={logoMark}
         alt=""
         loading={eager ? "eager" : "lazy"}
-        className={`h-auto transition-all duration-300 ${compact ? "w-10" : "w-12 md:w-20"}`}
+        className="logo-mark h-auto"
         sizes="80px"
       />
       <span className="flex flex-col items-center">
         {/* El yazısı fontların harfleri küçük görünür, bu yüzden boyutu serif'e göre büyük tuttuk */}
-        <span
-          className={`font-script text-brand-700 transition-all duration-300 ${
-            compact ? "text-3xl" : "text-[2.1rem] md:text-5xl"
-          }`}
-        >
-          Demo
-        </span>
-        <span
-          className={`mt-1 pl-[0.4em] font-medium uppercase tracking-[0.4em] text-brand-800 transition-all duration-300 ${
-            compact ? "text-[0.5rem]" : "text-[0.55rem] md:text-[0.65rem]"
-          }`}
-        >
+        <span className="logo-title font-script text-brand-700">Demo</span>
+        <span className="logo-subtitle mt-1 pl-[0.4em] font-medium uppercase tracking-[0.4em] text-brand-800">
           Beauty Center
         </span>
       </span>

@@ -35,6 +35,66 @@
   --font-script: var(--font-luxurious), cursive;
 }
 
+/*
+ * BAŞLIK (HEADER) YÜKSEKLİKLERİ
+ * Header sabit (fixed) olduğu için sayfa akışında yer kaplamaz; altına aynı
+ * yükseklikte boş bir "yer tutucu" (spacer) koyuyoruz. İkisi de bu değerleri
+ * kullanır → hiçbir zaman birbirinden farklı olamazlar.
+ * Logo boyutunu değiştirirsen bu değerleri de güncelle.
+ */
+:root {
+  --header-row: 4.5rem; /* logo satırı, büyük hâli */
+  --header-row-compact: 4rem; /* logo satırı, sayfa kaydırılınca */
+  --header-nav: 0rem; /* menü satırı (mobilde gizli) */
+}
+@media (min-width: 48rem) {
+  :root {
+    --header-row: 11.25rem;
+    --header-nav: 3.25rem;
+  }
+}
+
+/*
+ * KAYDIRMAYA BAĞLI KÜÇÜLME
+ * --shrink: 0 = sayfa en üstte (büyük logo), 1 = tamamen küçülmüş.
+ * Header.tsx her kaydırmada bu sayıyı günceller; aradaki her değer
+ * (0.25, 0.5...) ara bir boyut demek. Boyut doğrudan kaydırmaya bağlı
+ * olduğu için animasyon (transition) yok → header asla kaydırmanın
+ * gerisinde kalmaz, altında boşluk açılmaz.
+ * Footer'daki logoda --shrink tanımlı değil → varsayılan değer 0 (büyük hâl).
+ */
+.header-row {
+  height: calc(var(--header-row) - (var(--header-row) - var(--header-row-compact)) * var(--shrink, 0));
+}
+.logo-stack {
+  gap: 0.75rem;
+}
+.logo-mark {
+  width: calc(3rem - 0.5rem * var(--shrink, 0));
+}
+.logo-title {
+  font-size: calc(2.1rem - 0.225rem * var(--shrink, 0));
+}
+.logo-subtitle {
+  font-size: calc(0.55rem - 0.05rem * var(--shrink, 0));
+}
+@media (min-width: 48rem) {
+  .logo-stack {
+    gap: calc(0.5rem * (1 - var(--shrink, 0)));
+  }
+  /* Masaüstünde amblem tamamen kaybolur (genişlik ve opaklık 0'a iner) */
+  .logo-mark {
+    width: calc(5rem * (1 - var(--shrink, 0)));
+    opacity: calc(1 - var(--shrink, 0));
+  }
+  .logo-title {
+    font-size: calc(3rem - 1.125rem * var(--shrink, 0));
+  }
+  .logo-subtitle {
+    font-size: calc(0.65rem - 0.15rem * var(--shrink, 0));
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }
