@@ -60,3 +60,13 @@ from (values
    '2026-10-01', '/ornek/kas-oncesi.svg', '/ornek/kas-sonrasi.svg', true, 40)
 ) as v(slug, title, description, taken_on, before_url, after_url, is_featured, sort_order)
 join services s on s.slug = v.slug;
+
+-- ÇALIŞMA SAATLERİ (örnek: Pazartesi–Cumartesi 10:00–19:00, Pazar kapalı)
+insert into working_hours (weekday, is_closed, open_time, close_time) values
+  (0, true,  null,    null),
+  (1, false, '10:00', '19:00'),
+  (2, false, '10:00', '19:00'),
+  (3, false, '10:00', '19:00'),
+  (4, false, '10:00', '19:00'),
+  (5, false, '10:00', '19:00'),
+  (6, false, '10:00', '19:00');
