@@ -26,6 +26,11 @@ export function nowInIstanbul(now: Date = new Date()): { date: string; minutes: 
   return { date: calendar.format(now), minutes: toMinutes(clock.format(now)) };
 }
 
+/** Veritabanından gelen an → Türkiye'de hangi gün, kaçıncı dakika. "2026-11-24T11:00:00+00:00" → { date: "2026-11-24", minutes: 840 } */
+export function inIstanbul(iso: string): { date: string; minutes: number } {
+  return nowInIstanbul(new Date(iso));
+}
+
 /** Müşterinin seçtiği gün + dakika → veritabanına gidecek metin. ("2026-11-24", 795) → "2026-11-24T13:15:00+03:00" */
 export function toIstanbulIso(date: string, minutes: number): string {
   // Saat olduğu gibi kalır; sondaki +03:00 "bu Türkiye saatidir" der.
