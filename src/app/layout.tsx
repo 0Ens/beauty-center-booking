@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Jost, Luxurious_Script } from "next/font/google";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import WhatsAppButton from "@/components/WhatsAppButton";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -43,19 +40,15 @@ export const metadata: Metadata = {
   description: site.description,
 };
 
-// layout.tsx tüm sayfaları sarar: Header ve Footer burada bir kez yazılır,
-// {children} yerine o an açık olan sayfa gelir.
+// Kök layout TÜM sayfaları sarar (ziyaretçi sayfaları + panel): sadece
+// <html>, <body> ve fontlar. Menü/footer (site)/layout.tsx'te, panelin
+// kendi düzeni admin/layout.tsx'te.
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     // lang="tr" önemli: CSS'teki "uppercase" i harfini doğru şekilde "İ" yapar,
     // ekran okuyucular da metni Türkçe okur.
     <html lang="tr" className={`${cormorant.variable} ${jost.variable} ${luxurious.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <WhatsAppButton />
-      </body>
+      <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );
 }
