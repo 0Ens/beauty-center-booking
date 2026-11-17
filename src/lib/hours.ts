@@ -23,7 +23,7 @@ export type HoursLine = { days: string; time: string };
 type DayHours = { weekday: number; label: string };
 type Group = { firstDay: number; lastDay: number; label: string };
 
-const dayNames = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
+export const dayNames = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
 
 /** "10:00:00" → "10:00" */
 function hhmm(time: string | null) {
@@ -36,7 +36,7 @@ function toLabel(row: WorkingHoursRow): string {
 }
 
 /** Türkiye'de hafta pazartesi başlar: Pzt=0 ... Cmt=5, Paz=6 olacak şekilde sırala */
-function mondayFirst(weekday: number) {
+export function mondayFirst(weekday: number) {
   return (weekday + 6) % 7;
 }
 

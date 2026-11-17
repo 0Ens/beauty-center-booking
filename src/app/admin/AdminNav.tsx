@@ -11,6 +11,7 @@ import { signOut } from "./actions";
 const links = [
   { href: "/admin", label: "Randevular" },
   { href: "/admin/izin-gunleri", label: "İzin günleri" },
+  { href: "/admin/calisma-saatleri", label: "Çalışma saatleri" },
 ] as const;
 
 export default function AdminNav() {

@@ -37,31 +37,55 @@ type Row = {
   services: { name: string } | null;
 };
 
+// services(name): appointments.service_id üzerinden işlem adını da getir (JOIN)
+const COLUMNS = "id, status, starts_at, ends_at, customer_name, phone, note, services(name)";
+
+function toAdminAppointment(row: Row): AdminAppointment {
+  const start = inIstanbul(row.starts_at);
+  return {
+    id: row.id,
+    status: row.status,
+    date: start.date,
+    time: toTime(start.minutes),
+    endTime: toTime(inIstanbul(row.ends_at).minutes),
+    serviceName: row.services?.name ?? "(kaldırılmış işlem)",
+    customerName: row.customer_name,
+    phone: row.phone,
+    note: row.note ?? "",
+  };
+}
+
+/** Panel listesi: bugün 00:00'dan (Türkiye) itibaren, iptal edilenler dahil */
 export async function getUpcomingAppointments(): Promise<AdminAppointment[]> {
   const { supabase } = await requireAdmin();
   const { date: today } = nowInIstanbul();
 
   const { data, error } = await supabase
     .from("appointments")
-    // services(name): appointments.service_id üzerinden işlem adını da getir (JOIN)
-    .select("id, status, starts_at, ends_at, customer_name, phone, note, services(name)")
-    .gte("starts_at", toIstanbulIso(today, 0)) // bugün 00:00'dan (Türkiye) itibaren
+    .select(COLUMNS)
+    .gte("starts_at", toIstanbulIso(today, 0))
     .order("starts_at");
 
   if (error) throw new Error(`Randevular yüklenemedi: ${error.message}`);
+  return (data as unknown as Row[]).map(toAdminAppointment);
+}
 
-  return (data as unknown as Row[]).map((row) => {
-    const start = inIstanbul(row.starts_at);
-    return {
-      id: row.id,
-      status: row.status,
-      date: start.date,
-      time: toTime(start.minutes),
-      endTime: toTime(inIstanbul(row.ends_at).minutes),
-      serviceName: row.services?.name ?? "(kaldırılmış işlem)",
-      customerName: row.customer_name,
-      phone: row.phone,
-      note: row.note ?? "",
-    };
-  });
+/**
+ * Çakışma kontrolleri için: [from, to) arasında başlayan, İPTAL EDİLMEMİŞ
+ * (bekleyen veya onaylı) randevular. to verilmezse "from'dan sonraki hepsi".
+ * Tarihler ISO metin: "2026-12-01T00:00:00+03:00"
+ */
+export async function getActiveAppointmentsBetween(from: string, to?: string): Promise<AdminAppointment[]> {
+  const { supabase } = await requireAdmin();
+
+  let query = supabase
+    .from("appointments")
+    .select(COLUMNS)
+    .in("status", ["pending", "confirmed"])
+    .gte("starts_at", from);
+  if (to) query = query.lt("starts_at", to);
+
+  const { data, error } = await query.order("starts_at");
+  if (error) throw new Error(`Randevular yüklenemedi: ${error.message}`);
+  return (data as unknown as Row[]).map(toAdminAppointment);
 }

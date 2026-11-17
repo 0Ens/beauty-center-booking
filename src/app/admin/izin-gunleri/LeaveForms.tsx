@@ -1,7 +1,6 @@
 "use client";
-import Link from "next/link";
 import { useActionState, useState } from "react";
-import { formatDayLong } from "@/lib/format";
+import ConflictNotice from "../ConflictNotice";
 import { addBlockedRange, deleteBlockedRange, type AddLeaveState, type DeleteLeaveState } from "./actions";
 
 const inputClass =
@@ -26,25 +25,7 @@ export function AddLeaveForm({ today }: { today: string }) {
         </p>
       )}
 
-      {state.error && (
-        <div role="alert" className="space-y-3 rounded-xl border border-brand-400 bg-blush-50 px-4 py-3 text-sm">
-          <p className="font-medium">{state.error}</p>
-          {state.conflicts && (
-            <>
-              <ul className="list-disc space-y-1 pl-5">
-                {state.conflicts.map((c) => (
-                  <li key={c.id}>
-                    {formatDayLong(c.date)} {c.time}: {c.customerName}, {c.serviceName} ({c.statusText})
-                  </li>
-                ))}
-              </ul>
-              <Link href="/admin" className="font-medium text-brand-700 underline">
-                Randevulara git
-              </Link>
-            </>
-          )}
-        </div>
-      )}
+      {state.error && <ConflictNotice message={state.error} conflicts={state.conflicts} />}
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>

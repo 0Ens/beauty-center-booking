@@ -13,26 +13,17 @@
  * fonksiyonunda kilitle yapılırdı.)
  */
 import { refresh, updateTag } from "next/cache";
+import { unstable_rethrow } from "next/navigation";
 import { z } from "zod";
+import { getActiveAppointmentsBetween, type AdminAppointment } from "@/data/adminAppointments";
 import { requireAdmin } from "@/lib/adminAuth";
-import { statusLabel, type AppointmentStatus } from "@/lib/appointmentStatus";
 import { addDays } from "@/lib/bookingDay";
-import { inIstanbul, nowInIstanbul, toIstanbulIso } from "@/lib/istanbulTime";
+import { nowInIstanbul, toIstanbulIso } from "@/lib/istanbulTime";
 import { leaveRangeError } from "@/lib/leaveRange";
-import { toTime } from "@/lib/slots";
-
-export type LeaveConflict = {
-  id: number;
-  date: string;
-  time: string;
-  customerName: string;
-  serviceName: string;
-  statusText: string;
-};
 
 export type AddLeaveState = {
   error?: string;
-  conflicts?: LeaveConflict[];
+  conflicts?: AdminAppointment[];
   saved?: boolean;
   // Hata olursa form boşalmasın diye girilen değerleri geri gönderiyoruz
   values?: { startsOn: string; endsOn: string; reason: string };
@@ -69,32 +60,17 @@ export async function addBlockedRange(_prev: AddLeaveState, formData: FormData):
 
   // Bu günlerde bekleyen/onaylı randevu var mı?
   // [başlangıç günü 00:00, bitişten SONRAKİ gün 00:00) aralığında başlayan randevular
-  const { data: rows, error: conflictError } = await supabase
-    .from("appointments")
-    .select("id, status, starts_at, customer_name, services(name)")
-    .in("status", ["pending", "confirmed"])
-    .gte("starts_at", toIstanbulIso(startsOn, 0))
-    .lt("starts_at", toIstanbulIso(addDays(endsOn, 1), 0))
-    .order("starts_at");
-
-  if (conflictError) {
-    console.error(`[panel] izin çakışma kontrolü: ${conflictError.code} ${conflictError.message}`);
+  let conflicts: AdminAppointment[];
+  try {
+    conflicts = await getActiveAppointmentsBetween(toIstanbulIso(startsOn, 0), toIstanbulIso(addDays(endsOn, 1), 0));
+  } catch (e) {
+    // Oturum düşmüşse requireAdmin redirect() fırlatır; onu yutmayıp Next'e geri ver
+    unstable_rethrow(e);
+    console.error("[panel] izin çakışma kontrolü:", e);
     return { error: "Kaydedilemedi. Lütfen tekrar deneyin.", values };
   }
 
-  if (rows.length > 0) {
-    type Row = { id: number; status: AppointmentStatus; starts_at: string; customer_name: string; services: { name: string } | null };
-    const conflicts = (rows as unknown as Row[]).map((r) => {
-      const start = inIstanbul(r.starts_at);
-      return {
-        id: r.id,
-        date: start.date,
-        time: toTime(start.minutes),
-        customerName: r.customer_name,
-        serviceName: r.services?.name ?? "(kaldırılmış işlem)",
-        statusText: statusLabel[r.status],
-      };
-    });
+  if (conflicts.length > 0) {
     return {
       error: `Bu tarihlerde ${conflicts.length} randevu var. Önce müşterilere haber verip randevuları iptal edin, sonra izni tekrar ekleyin.`,
       conflicts,
