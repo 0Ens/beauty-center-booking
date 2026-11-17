@@ -2,14 +2,18 @@ import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import ServiceCard from "@/components/ServiceCard";
 import CtaBand from "@/components/CtaBand";
-import { serviceCategories, services } from "@/data/services";
+import { getServices } from "@/data/services";
 
 export const metadata: Metadata = {
   title: "İşlemlerimiz",
   description: "Cilt bakımı, kaş ve kirpik uygulamaları: tüm işlemlerimiz, süreleri ve detayları.",
 };
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const services = await getServices();
+  // Set: tekrar edenleri atar → her kategori bir kez
+  const serviceCategories = [...new Set(services.map((service) => service.category))];
+
   return (
     <>
       <PageHeader

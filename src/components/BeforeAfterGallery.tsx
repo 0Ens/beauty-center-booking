@@ -10,21 +10,23 @@
  */
 import { useState } from "react";
 import BeforeAfterCard from "./BeforeAfterCard";
-import { beforeAfterItems, getCategory } from "@/data/beforeAfter";
-import { serviceCategories } from "@/data/services";
+import type { BeforeAfterEntry } from "@/data/beforeAfter";
 
-const kategoriler = ["Tümü", ...serviceCategories];
+type Props = {
+  items: BeforeAfterEntry[]; // sunucudan hazır gelir (kategorisi hesaplanmış)
+  categories: string[];
+};
 
-export default function BeforeAfterGallery() {
+export default function BeforeAfterGallery({ items, categories }: Props) {
+  const kategoriler = ["Tümü", ...categories];
+
   // Senin yazdığın kısım 👇
   // 1. Seçili kategoriyi HATIRLA (başlangıçta "Tümü")
   const [kategori, setKategori] = useState("Tümü");
 
   // 2. Listeyi ona göre FİLTRELE:
   //    "Tümü" seçiliyse ya da örneğin kategorisi seçilenle aynıysa → listede kalır
-  const gorunenler = beforeAfterItems.filter(
-    (item) => kategori === "Tümü" || getCategory(item) === kategori,
-  );
+  const gorunenler = items.filter((item) => kategori === "Tümü" || item.category === kategori);
 
   return (
     <>

@@ -1,8 +1,11 @@
 import Link from "next/link";
 import ServiceCard from "@/components/ServiceCard";
-import { featuredServices } from "@/data/services";
+import { getFeaturedServices } from "@/data/services";
 
-export default function FeaturedServices() {
+// async bileşen: veritabanından veri gelmesini bekleyebilir (sadece sunucu bileşenlerinde)
+export default async function FeaturedServices() {
+  const featuredServices = await getFeaturedServices();
+
   return (
     <section className="container-page py-20">
       <div className="mb-12 text-center">

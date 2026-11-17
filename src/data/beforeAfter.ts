@@ -5,7 +5,7 @@
  * sonra konabilir (KVKK: yüz fotoğrafı kişisel veridir).
  * Aşama 3'te bu liste veritabanına taşınacak, fotoğrafları salon sahibi panelden yükleyecek.
  */
-import { getServiceBySlug } from "./services";
+import { getServices } from "./services";
 
 export type BeforeAfterItem = {
   id: string;
@@ -61,12 +61,19 @@ export const beforeAfterItems: BeforeAfterItem[] = [
   },
 ];
 
-/** Bir örneğin kategorisi = ait olduğu işlemin kategorisi */
-export function getCategory(item: BeforeAfterItem) {
-  return getServiceBySlug(item.serviceSlug)?.category ?? "Diğer";
-}
+/** Ekranda gösterilen örnek: kategorisi de hesaplanmış hâli */
+export type BeforeAfterEntry = BeforeAfterItem & { category: string };
 
-/** "2026-10" → "Ekim 2026" */
-export function formatMonth(date: string) {
-  return new Date(`${date}-01T12:00:00`).toLocaleDateString("tr-TR", { month: "long", year: "numeric" });
+/*
+ * Bir örneğin kategorisi = ait olduğu işlemin kategorisi. İşlemler artık
+ * veritabanında olduğu için bu hesap SUNUCUDA yapılıyor; tarayıcıdaki
+ * bileşenlere (galeri, kaydırıcı) kategorisi hazır veri gönderiliyor.
+ * (Tarayıcı kodu veritabanı bağlantısını import edemez.)
+ */
+export async function getBeforeAfterEntries(): Promise<BeforeAfterEntry[]> {
+  const services = await getServices();
+  return beforeAfterItems.map((item) => ({
+    ...item,
+    category: services.find((s) => s.slug === item.serviceSlug)?.category ?? "Diğer",
+  }));
 }

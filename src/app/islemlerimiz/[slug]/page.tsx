@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CalendarHeart, Check, Clock } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
-import { getServiceBySlug, services } from "@/data/services";
+import { getServiceBySlug, getServices } from "@/data/services";
 
 /*
  * DİNAMİK ROUTE: Klasör adındaki [slug] bir değişkendir.
@@ -13,14 +13,16 @@ import { getServiceBySlug, services } from "@/data/services";
  */
 
 // Build sırasında hangi slug'lar için sayfa üretileceğini söylüyoruz (statik üretim → çok hızlı).
-export function generateStaticParams() {
+// Listede olmayan yeni bir işlem (salon sahibi panelden ekleyince) ilk ziyarette üretilir.
+export async function generateStaticParams() {
+  const services = await getServices();
   return services.map((service) => ({ slug: service.slug }));
 }
 
 // Next.js 16'da params bir Promise; değerine ulaşmak için "await" gerekiyor.
 export async function generateMetadata({ params }: PageProps<"/islemlerimiz/[slug]">): Promise<Metadata> {
   const { slug } = await params;
-  const service = getServiceBySlug(slug);
+  const service = await getServiceBySlug(slug);
   if (!service) return {};
   return { title: service.name, description: service.summary };
 }
@@ -33,8 +35,8 @@ export async function generateMetadata({ params }: PageProps<"/islemlerimiz/[slu
  *
  * Çözüm: Sayfanın kendisi hiçbir şey beklemiyor (anında gösterilebilir "kabuk"),
  * URL'ye bağlı kısım ise <Suspense> içinde. O kısım hazır olana kadar
- * `fallback` (iskelet görünüm) gösterilir. Aşama 3'te veri Supabase'den
- * gelince bu yapı daha da önemli olacak (veritabanı isteği zaman alır).
+ * `fallback` (iskelet görünüm) gösterilir. Veri artık Supabase'den geldiği
+ * için bu yapı daha da önemli (veritabanı isteği zaman alır).
  */
 export default function ServiceDetailPage({ params }: PageProps<"/islemlerimiz/[slug]">) {
   return (
@@ -46,7 +48,7 @@ export default function ServiceDetailPage({ params }: PageProps<"/islemlerimiz/[
 
 async function ServiceDetail({ params }: Pick<PageProps<"/islemlerimiz/[slug]">, "params">) {
   const { slug } = await params;
-  const service = getServiceBySlug(slug);
+  const service = await getServiceBySlug(slug);
 
   // Böyle bir işlem yoksa 404 sayfası göster
   if (!service) notFound();
