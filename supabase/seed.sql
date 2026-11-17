@@ -70,3 +70,7 @@ insert into working_hours (weekday, is_closed, open_time, close_time) values
   (4, false, '10:00', '19:00'),
   (5, false, '10:00', '19:00'),
   (6, false, '10:00', '19:00');
+
+-- İZİN GÜNLERİ (örnek: yılbaşı)
+insert into blocked_dates (starts_on, ends_on, reason) values
+  ('2026-12-31', '2027-01-01', 'Yılbaşı tatili');
