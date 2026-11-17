@@ -27,12 +27,12 @@ export const site: SiteConfig = {
     "Demo Güzellik Merkezi: kişiye özel cilt bakımı, kaş ve kirpik uygulamaları. Online randevu alın.",
 
   /** Ekranda görünen telefon, ör. "0532 123 45 67" */
-  phone: "",
+  phone: "0500 000 00 00",
   /** WhatsApp için ülke koduyla, boşluksuz: ör. "905321234567". Doluysa sağ altta WhatsApp butonu çıkar. */
-  whatsapp: "",
+  whatsapp: "905000000000",
   /** Sadece kullanıcı adı, ör. "salonadibeauty" */
   instagram: "",
-  address: "",
+  address: "Örnek Mah. Demo Sk. No: 1, 00000 Merkez/Örnekşehir",
   /** Google Haritalar'daki "Paylaş" bağlantısı */
   mapsUrl: "",
 

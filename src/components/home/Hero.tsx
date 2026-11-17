@@ -5,7 +5,7 @@ import logoMark from "../../../public/logo-mark.png";
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden bg-linear-to-b from-blush-100 to-blush-50">
+    <section className="relative overflow-hidden bg-linear-to-b from-blush-200 to-blush-50">
       {/* Dekoratif yumuşak daireler (fotoğraf gelene kadar görsel boşluğu dolduruyor) */}
       <div aria-hidden className="pointer-events-none absolute -top-24 -right-24 size-96 rounded-full bg-blush-300/40 blur-3xl" />
       <div aria-hidden className="pointer-events-none absolute top-1/3 -left-40 size-80 rounded-full bg-gold/15 blur-3xl" />
@@ -14,7 +14,7 @@ export default function Hero() {
         <div className="text-center md:text-left">
           <p className="eyebrow">Demo Güzellik Merkezi</p>
           <h1 className="mt-4 font-serif text-5xl leading-[1.05] font-semibold sm:text-6xl">
-            Cildinizin hak ettiği <span className="text-brand-700 italic">özen</span>
+            Cildinizin hak ettiği <span className="font-script text-[1.3em] font-normal text-brand-700">özen</span>
           </h1>
           <p className="mx-auto mt-6 max-w-md leading-relaxed text-ink-soft md:mx-0">
             Cilt tipinize ve ihtiyacınıza özel bakımlarla kendinizi iyi hissetmeniz için buradayız.
@@ -33,7 +33,7 @@ export default function Hero() {
         {/* TODO: Salon ya da uygulama fotoğrafı gelince bu kutu fotoğrafla değişecek */}
         <div aria-hidden className="relative mx-auto aspect-[4/5] w-full max-w-sm">
           <div className="absolute inset-0 rotate-6 rounded-[3rem] bg-blush-300/50" />
-          <div className="absolute inset-0 flex items-center justify-center rounded-[3rem] border border-white bg-linear-to-br from-white via-blush-50 to-blush-200 shadow-xl">
+          <div className="absolute inset-0 flex items-center justify-center rounded-[3rem] border border-white bg-linear-to-br from-white via-blush-100 to-blush-300 shadow-xl">
             <Image src={logoMark} alt="" className="h-auto w-3/4" sizes="(min-width: 768px) 300px, 75vw" />
           </div>
         </div>

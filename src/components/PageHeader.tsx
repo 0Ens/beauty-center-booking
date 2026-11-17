@@ -9,7 +9,7 @@ type PageHeaderProps = {
 /** Ana sayfa dışındaki her sayfanın üstündeki başlık bandı (başlık + "Ana Sayfa › ..." yolu) */
 export default function PageHeader({ title, description }: PageHeaderProps) {
   return (
-    <section className="bg-linear-to-b from-blush-100 to-blush-50 py-14 text-center sm:py-20">
+    <section className="bg-linear-to-b from-blush-200 to-blush-50 py-14 text-center sm:py-20">
       <div className="container-page">
         <nav aria-label="Sayfa yolu" className="mb-4 flex items-center justify-center gap-1 text-xs text-ink-soft">
           <Link href="/" className="hover:text-brand-700">

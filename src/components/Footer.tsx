@@ -36,7 +36,13 @@ export default function Footer() {
             {site.address && (
               <li className="flex items-start justify-center gap-2 md:justify-start">
                 <MapPin size={16} className="mt-0.5 shrink-0 text-brand-600" aria-hidden />
-                {site.address}
+                {site.mapsUrl ? (
+                  <a href={site.mapsUrl} target="_blank" rel="noopener noreferrer" className="hover:text-brand-700">
+                    {site.address}
+                  </a>
+                ) : (
+                  site.address
+                )}
               </li>
             )}
             {site.phone && (

@@ -34,15 +34,16 @@ export default function Logo({ compact = false, eager = false }: LogoProps) {
         sizes="80px"
       />
       <span className="flex flex-col items-center">
+        {/* El yazısı fontların harfleri küçük görünür, bu yüzden boyutu serif'e göre büyük tuttuk */}
         <span
-          className={`font-serif font-semibold text-brand-800 transition-all duration-300 ${
-            compact ? "text-2xl" : "text-[1.7rem] md:text-4xl"
+          className={`font-script text-brand-700 transition-all duration-300 ${
+            compact ? "text-3xl" : "text-[2.1rem] md:text-5xl"
           }`}
         >
           Demo
         </span>
         <span
-          className={`mt-1 pl-[0.4em] uppercase tracking-[0.4em] text-ink-soft transition-all duration-300 ${
+          className={`mt-1 pl-[0.4em] font-medium uppercase tracking-[0.4em] text-brand-800 transition-all duration-300 ${
             compact ? "text-[0.5rem]" : "text-[0.55rem] md:text-[0.65rem]"
           }`}
         >

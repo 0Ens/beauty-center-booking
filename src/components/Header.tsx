@@ -40,7 +40,7 @@ export default function Header() {
   const closeMenu = () => setMenuOpen(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-blush-200 bg-linear-to-b from-white to-blush-100/95 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-blush-200 bg-linear-to-b from-blush-50 to-blush-200/95 backdrop-blur">
       <div className="container-page">
         {/* Logo satırı: 3 sütunlu grid → [boş] [logo] [menü butonu].
             Yan sütunlar eşit (1fr) olduğu için logo her ekranda tam ortada kalır. */}

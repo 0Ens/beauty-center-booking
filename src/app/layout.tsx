@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Jost } from "next/font/google";
+import { Cormorant_Garamond, Jost, Pinyon_Script } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -22,6 +22,17 @@ const jost = Jost({
   display: "swap",
 });
 
+// Markanın logosundaki yazıya en yakın Google fontu.
+// El yazısı (script) fontlar SADECE logo ve kısa vurgularda kullanılır:
+// uzun metinde okunması zordur. Tek ağırlığı (400) var; "font-bold" verilirse
+// tarayıcı sahte kalınlık üretir ve çirkin görünür.
+const pinyon = Pinyon_Script({
+  variable: "--font-pinyon",
+  subsets: ["latin", "latin-ext"],
+  weight: "400",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   // Alt sayfalar sadece kendi başlığını verir, şablon sonuna salon adını ekler:
   // "İşlemlerimiz | Demo Güzellik Merkezi"
@@ -38,7 +49,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     // lang="tr" önemli: CSS'teki "uppercase" i harfini doğru şekilde "İ" yapar,
     // ekran okuyucular da metni Türkçe okur.
-    <html lang="tr" className={`${cormorant.variable} ${jost.variable} h-full antialiased`}>
+    <html lang="tr" className={`${cormorant.variable} ${jost.variable} ${pinyon.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
         <Header />
         <main className="flex-1">{children}</main>

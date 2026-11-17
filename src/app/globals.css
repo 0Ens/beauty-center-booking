@@ -8,17 +8,18 @@
  */
 @theme {
   /* Arka plan pembeleri (açıktan koyuya) */
-  --color-blush-50: #fffafb;
-  --color-blush-100: #fcf0f3;
-  --color-blush-200: #f8e1e7;
-  --color-blush-300: #f0c6d1;
+  --color-blush-50: #fdf0f4;
+  --color-blush-100: #fae1e9;
+  --color-blush-200: #f5cbd8;
+  --color-blush-300: #eeadc1;
 
-  /* Marka pembesi. Beyaz yazı içeren butonlarda en az 700 kullan (okunabilirlik / kontrast) */
-  --color-brand-400: #e3a3b4;
-  --color-brand-500: #d9849b;
-  --color-brand-600: #c26a82;
-  --color-brand-700: #a3536a;
-  --color-brand-800: #874257;
+  /* Marka pembesi — 500 tonu logodaki çizgi rengiyle aynı (#db7093).
+     Beyaz yazı içeren butonlarda en az 700 kullan (okunabilirlik / kontrast) */
+  --color-brand-400: #e693ad;
+  --color-brand-500: #db7093;
+  --color-brand-600: #c45a7d;
+  --color-brand-700: #a8466a;
+  --color-brand-800: #8a3656;
 
   /* Metin renkleri ve vurgu */
   --color-ink: #3a2a30;
@@ -30,6 +31,8 @@
 @theme inline {
   --font-serif: var(--font-cormorant), Georgia, serif;
   --font-sans: var(--font-jost), system-ui, sans-serif;
+  /* Marka el yazısı → Tailwind'de `font-script` sınıfı olarak kullanılır */
+  --font-script: var(--font-pinyon), cursive;
 }
 
 html {

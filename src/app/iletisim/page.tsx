@@ -15,7 +15,13 @@ export default function ContactPage() {
   const missing = "Yakında eklenecek";
 
   const items = [
-    { icon: MapPin, title: "Adres", value: site.address || missing, href: site.mapsUrl || undefined },
+    {
+      icon: MapPin,
+      title: "Adres",
+      // Adres yazılmamış ama harita linki varsa en azından haritaya yönlendir
+      value: site.address || (site.mapsUrl ? "Haritada görüntüle" : missing),
+      href: site.mapsUrl || undefined,
+    },
     {
       icon: Phone,
       title: "Telefon",

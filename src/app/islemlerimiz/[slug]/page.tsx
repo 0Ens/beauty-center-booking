@@ -95,7 +95,7 @@ async function ServiceDetail({ params }: Pick<PageProps<"/islemlerimiz/[slug]">,
 function ServiceDetailSkeleton() {
   return (
     <div aria-busy="true" aria-label="Yükleniyor" className="animate-pulse">
-      <section className="bg-linear-to-b from-blush-100 to-blush-50 py-14 sm:py-20">
+      <section className="bg-linear-to-b from-blush-200 to-blush-50 py-14 sm:py-20">
         <div className="container-page flex flex-col items-center gap-4">
           <div className="h-3 w-40 rounded-full bg-blush-200" />
           <div className="h-10 w-72 max-w-full rounded-full bg-blush-200" />
