@@ -1,5 +1,5 @@
 import Image from "next/image";
-import logoMark from "../../public/logo-mark-bold.png";
+import logoMark from "../../public/logo-mark-bold.svg";
 
 /*
  * LOGO = amblem (çizim) + yazı (Demo / Beauty Center)
@@ -8,8 +8,10 @@ import logoMark from "../../public/logo-mark-bold.png";
  * başına "kimin logosu" olduğu anlaşılmıyor. Yanına marka adını yazınca
  * hem zarif hem okunaklı oluyor.
  *
- * logo-mark.png, logo.png'nin kenarlarındaki boşluk kırpılmış hâli.
- * logo-mark-bold.png ise çizgileri kalınlaştırılmış sürümü: ince çizgiler
+ * logo-mark.svg: Canva'nın vektör PDF çıktısından yalnızca amblem çizimleri
+ * alınıp (pembe arka plan ve yazılar atılarak) SVG'ye çevrildi. SVG bir
+ * resim değil, çizim tarifi: her boyutta keskin, dosyası da küçük.
+ * logo-mark-bold.svg ise çizgileri kalınlaştırılmış sürümü: ince çizgiler
  * küçük boyutta kaybolduğu için başlık ve footer'da bunu kullanıyoruz.
  * Resmi `import` ile almak, Next.js'e genişlik/yüksekliği otomatik söyler
  * (sayfa yüklenirken içerik zıplamaz = CLS olmaz).
@@ -33,7 +35,6 @@ export default function Logo({ eager = false }: LogoProps) {
         alt=""
         loading={eager ? "eager" : "lazy"}
         className="logo-mark h-auto"
-        sizes="80px"
       />
       <span className="flex flex-col items-center">
         {/* El yazısı fontların harfleri küçük görünür, bu yüzden boyutu serif'e göre büyük tuttuk */}

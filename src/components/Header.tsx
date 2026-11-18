@@ -99,7 +99,9 @@ export default function Header() {
               Yan sütunlar eşit (1fr) olduğu için logo her ekranda tam ortada kalır. */}
           <div className="header-row grid grid-cols-[1fr_auto_1fr] items-center">
             <span />
-            <Link href="/" aria-label="Demo Güzellik Merkezi — Ana sayfa" onClick={closeMenu}>
+            {/* aria-label yok: linkin adı içindeki görünen yazıdan ("Demo Güzellik Merkezi") gelir.
+                Ayrı bir etiket, sesli komutla gezinen kullanıcı "Demo Güzellik'e tıkla" dediğinde eşleşmezdi. */}
+            <Link href="/" onClick={closeMenu}>
               <Logo eager />
             </Link>
 

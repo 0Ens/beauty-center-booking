@@ -9,15 +9,25 @@ import type { BeforeAfterEntry } from "@/data/beforeAfter";
  * sadece hazır veri alıyor (kategori sunucuda hesaplanmış geliyor).
  * Not: "import type" derlemede silinir → veritabanı kodu tarayıcıya taşınmaz.
  */
-export default function BeforeAfterCard({ item }: { item: BeforeAfterEntry }) {
+type Props = {
+  item: BeforeAfterEntry;
+  /** Başlık seviyesi: ana sayfada bölüm başlığının (h2) altında h3,
+   *  galeri sayfasında doğrudan sayfa başlığının (h1) altında h2 */
+  headingLevel?: "h2" | "h3";
+  eager?: boolean;
+};
+
+export default function BeforeAfterCard({ item, headingLevel = "h3", eager = false }: Props) {
+  // JSX'te etiket adı değişkenden gelecekse büyük harfli bir değişkene alınır
+  const Heading = headingLevel;
   return (
     <article>
-      <BeforeAfterSlider before={item.before} after={item.after} alt={item.title} />
+      <BeforeAfterSlider before={item.before} after={item.after} alt={item.title} eager={eager} />
       <div className="mt-4 px-1">
-        <p className="text-xs font-medium uppercase tracking-[0.2em] text-brand-600">
+        <p className="text-xs font-medium uppercase tracking-[0.2em] text-brand-700">
           {item.category} · {formatMonth(item.takenOn)}
         </p>
-        <h3 className="mt-1 font-serif text-2xl font-semibold text-ink">{item.title}</h3>
+        <Heading className="mt-1 font-serif text-2xl font-semibold text-ink">{item.title}</Heading>
         <p className="mt-2 text-sm leading-relaxed text-ink-soft">{item.description}</p>
       </div>
     </article>

@@ -56,8 +56,10 @@ export default function BeforeAfterGallery({ items, categories }: Props) {
 
       {gorunenler.length > 0 ? (
         <div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-          {gorunenler.map((item) => (
-            <BeforeAfterCard key={item.id} item={item} />
+          {gorunenler.map((item, i) => (
+            // Sayfada h1'den sonra başka başlık yok → kart başlıkları h2.
+            // İlk kart ekranın en üstünde (LCP) → görselleri öncelikli.
+            <BeforeAfterCard key={item.id} item={item} headingLevel="h2" eager={i === 0} />
           ))}
         </div>
       ) : (

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" fill="none" stroke="#db7093" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Örnek amblem (nilüfer). Yeni salonda bu dosyayı kendi amblemiyle değiştir. -->
+  <path d="M60 20C73 36 75 58 60 80C45 58 47 36 60 20Z"/>
+  <path d="M57 80C40 74 31 57 33 38C47 45 56 60 57 80Z"/>
+  <path d="M63 80C80 74 89 57 87 38C73 45 64 60 63 80Z"/>
+  <path d="M54 83C35 85 20 75 13 60C30 58 45 67 54 83Z"/>
+  <path d="M66 83C85 85 100 75 107 60C90 58 75 67 66 83Z"/>
+  <path d="M28 95C49 103 71 103 92 95"/>
+  <circle cx="60" cy="11" r="2.5" fill="#db7093" stroke="none"/>
+</svg>

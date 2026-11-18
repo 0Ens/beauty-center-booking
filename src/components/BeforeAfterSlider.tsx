@@ -22,6 +22,8 @@ type Props = {
   alt: string;
   /** Tarayıcıya görselin ekranda ne kadar yer kaplayacağını söyler → doğru boyutta indirir */
   sizes?: string;
+  /** Sayfanın en üstündeki ilk kart → görseller beklemeden, öncelikli insin (LCP) */
+  eager?: boolean;
 };
 
 export default function BeforeAfterSlider({
@@ -29,7 +31,10 @@ export default function BeforeAfterSlider({
   after,
   alt,
   sizes = "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw",
+  eager = false,
 }: Props) {
+  // İki görsel de ekranda görünüyor; ikisi de aynı öncelikle yüklenmeli
+  const yukleme = eager ? ({ loading: "eager", fetchPriority: "high" } as const) : {};
   const [yuzde, setYuzde] = useState(50); // çizgi başlangıçta ortada
   const kutuRef = useRef<HTMLDivElement>(null);
 
@@ -94,7 +99,7 @@ export default function BeforeAfterSlider({
       onPointerMove={handlePointerMove}
     >
       {/* Alt katman: SONRASI (her zaman tamamı görünür, üstü örtülür) */}
-      <Image src={after} alt={`${alt} — sonrası`} fill sizes={sizes} draggable={false} className="object-cover" />
+      <Image src={after} alt={`${alt} — sonrası`} fill sizes={sizes} draggable={false} className="object-cover" {...yukleme} />
 
       {/* Üst katman: ÖNCESİ, sağdan kırpılmış.
           inset(üst sağ alt sol): sağdan (100 - yuzde)% kes → soldaki yuzde% kalır */}
@@ -105,6 +110,7 @@ export default function BeforeAfterSlider({
         sizes={sizes}
         draggable={false}
         className="object-cover"
+        {...yukleme}
         style={{ clipPath: `inset(0 ${100 - yuzde}% 0 0)` }}
       />
 

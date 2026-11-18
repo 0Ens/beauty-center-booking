@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { CalendarHeart } from "lucide-react";
-import logoMark from "../../../public/logo-mark.png";
+import logoMark from "../../../public/logo-mark.svg";
 
 export default function Hero() {
   return (
@@ -34,7 +34,15 @@ export default function Hero() {
         <div aria-hidden className="relative mx-auto aspect-[4/5] w-full max-w-sm">
           <div className="absolute inset-0 rotate-6 rounded-[3rem] bg-blush-300/50" />
           <div className="absolute inset-0 flex items-center justify-center rounded-[3rem] border border-white bg-linear-to-br from-white via-blush-100 to-blush-300 shadow-xl">
-            <Image src={logoMark} alt="" className="h-auto w-3/4" sizes="(min-width: 768px) 300px, 75vw" />
+            {/* Mobilde ekrandaki en büyük öğe bu (LCP): lazy yüklenmesin, öncelikli insin.
+                SVG olduğu için her boyutta keskin; "sizes" gerekmiyor (Next SVG'yi olduğu gibi sunar). */}
+            <Image
+              src={logoMark}
+              alt=""
+              loading="eager"
+              fetchPriority="high"
+              className="h-auto w-3/4"
+            />
           </div>
         </div>
       </div>
