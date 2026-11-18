@@ -25,8 +25,8 @@ type Group = { firstDay: number; lastDay: number; label: string };
 
 export const dayNames = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
 
-/** "10:00:00" → "10:00" */
-function hhmm(time: string | null) {
+/** "10:00:00" → "10:00" (openingHours.ts de kullanıyor) */
+export function hhmm(time: string | null) {
   return (time ?? "").slice(0, 5);
 }
 

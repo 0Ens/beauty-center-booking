@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Jost, Luxurious_Script } from "next/font/google";
 import { site } from "@/lib/site";
+import { siteUrl } from "@/lib/siteUrl";
 import "./globals.css";
 
 // next/font fontları build sırasında indirip siteyle birlikte sunar:
@@ -31,6 +32,8 @@ const luxurious = Luxurious_Script({
 });
 
 export const metadata: Metadata = {
+  // Göreli adresleri (ör. paylaşım görseli "/opengraph-image") tam adrese çevirmek için taban.
+  metadataBase: new URL(siteUrl),
   // Alt sayfalar sadece kendi başlığını verir, şablon sonuna salon adını ekler:
   // "İşlemlerimiz | Demo Güzellik Merkezi"
   title: {
@@ -38,6 +41,14 @@ export const metadata: Metadata = {
     template: `%s | ${site.name}`,
   },
   description: site.description,
+  // Open Graph: link WhatsApp/Instagram/Facebook'ta paylaşılınca çıkan önizleme kartı.
+  // Görseli ayrıca vermiyoruz: app/opengraph-image.tsx dosyası onu otomatik ekliyor.
+  openGraph: {
+    siteName: site.name,
+    locale: "tr_TR",
+    type: "website",
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 // Kök layout TÜM sayfaları sarar (ziyaretçi sayfaları + panel): sadece

@@ -17,9 +17,20 @@ type SiteConfig = {
   phone: string;
   whatsapp: string;
   instagram: string;
+  /** Adresin parçaları (Google'a verilen işletme bilgisi bunları ayrı ayrı istiyor) */
+  postalAddress: { street: string; postalCode: string; district: string; city: string };
+  /** Ekranda görünen tek satırlık adres (postalAddress'ten üretiliyor) */
   address: string;
   mapsUrl: string;
   // Çalışma saatleri artık veritabanında (working_hours) → src/data/workingHours.ts
+};
+
+// Adres tek yerde: hem ekrandaki satır hem Google'a giden parçalar buradan
+const postalAddress = {
+  street: "Örnek Mah. Demo Sk. No: 1",
+  postalCode: "00000",
+  district: "Merkez",
+  city: "Örnekşehir",
 };
 
 export const site: SiteConfig = {
@@ -36,7 +47,8 @@ export const site: SiteConfig = {
   whatsapp: "905000000000",
   /** Sadece kullanıcı adı, ör. "salonadibeauty" */
   instagram: "",
-  address: "Örnek Mah. Demo Sk. No: 1, 00000 Merkez/Örnekşehir",
+  postalAddress,
+  address: `${postalAddress.street}, ${postalAddress.postalCode} ${postalAddress.district}/${postalAddress.city}`,
   /** Google Haritalar'daki "Paylaş" bağlantısı */
   mapsUrl: "",
 };
