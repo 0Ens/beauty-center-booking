@@ -5,13 +5,13 @@
 -- İşlem, tarih ve durum KALIR (istatistik: "geçen yıl kaç kirpik lifting yaptık?").
 -- Bunlar tek başına kimseyi tanımlamadığı için kişisel veri sayılmaz.
 --
--- ÖN KOŞUL: Supabase Dashboard → Integrations → Cron → "Enable pg_cron".
+-- ÖN KOŞUL: Supabase Dashboard → Database → Extensions → "pg_cron" ara → etkinleştir.
 -- (Aşağıdaki kontrol, etkin değilse anlaşılır bir hatayla durur.)
 
 do $$
 begin
   if not exists (select 1 from pg_extension where extname = 'pg_cron') then
-    raise exception 'Önce Supabase Dashboard → Integrations → Cron bölümünden pg_cron''u etkinleştirin, sonra bu dosyayı tekrar çalıştırın.';
+    raise exception 'Önce Supabase Dashboard → Database → Extensions bölümünden pg_cron''u etkinleştirin, sonra bu dosyayı tekrar çalıştırın.';
   end if;
 end $$;
 

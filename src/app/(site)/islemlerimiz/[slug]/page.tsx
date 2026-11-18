@@ -23,7 +23,8 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/islemlerimiz/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const service = await getServiceBySlug(slug);
-  if (!service) return {};
+  // İşlem yoksa sayfa not-found.tsx'i gösterecek; sekme başlığı da ona uysun.
+  if (!service) return { title: "İşlem bulunamadı" };
   return { title: service.name, description: service.summary };
 }
 
