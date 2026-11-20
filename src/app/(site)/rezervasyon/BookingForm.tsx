@@ -51,6 +51,19 @@ export default function BookingForm({ slug, date, dateLabel, slots }: Props) {
       <input type="hidden" name="islem" value={slug} />
       <input type="hidden" name="tarih" value={date} />
 
+      {/*
+        BAL KÜPÜ (honeypot): insanlar bu alanı görmez, ama formları otomatik
+        dolduran botlar her kutuya bir şey yazar. Doluysa sunucu kaydetmez.
+        display:none yerine ekran dışına itiyoruz: bazı botlar gizli alanları atlıyor.
+        aria-hidden + tabIndex=-1 → ekran okuyucu ve Tab tuşu da buraya gelmez.
+      */}
+      <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+        <label>
+          Web siteniz
+          <input type="text" name="website" tabIndex={-1} autoComplete="off" defaultValue="" />
+        </label>
+      </div>
+
       {state.error && (
         <p role="alert" className="rounded-2xl border border-brand-400 bg-blush-100 px-5 py-4 text-sm font-medium">
           {state.error}

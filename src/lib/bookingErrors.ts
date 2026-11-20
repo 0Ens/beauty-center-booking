@@ -29,6 +29,12 @@ const messages = new Map<string, string>([
   ["invalid_start", SLOT_UNAVAILABLE],
   ["outside_working_hours", SLOT_UNAVAILABLE],
   ["blocked_date", "Bu gün salonumuz kapalı. Lütfen başka bir gün seçin."],
+  // Spam freni (0015)
+  ["too_many_requests", "Şu anda çok fazla randevu talebi var. Lütfen biraz sonra tekrar deneyin ya da bizi arayın."],
+  [
+    "too_many_for_phone",
+    "Bu telefon numarasıyla zaten 3 yaklaşan randevunuz var. Yeni randevu için lütfen bizi arayın.",
+  ],
 ]);
 
 export function bookingErrorMessage(error: DbError): string {

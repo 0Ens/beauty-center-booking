@@ -16,7 +16,7 @@ import { after } from "next/server";
 import { z } from "zod";
 import { getDaySlots } from "@/data/availability";
 import { getServiceBySlug } from "@/data/services";
-import { bookingErrorMessage, SLOT_UNAVAILABLE } from "@/lib/bookingErrors";
+import { bookingErrorMessage, GENERIC, SLOT_UNAVAILABLE } from "@/lib/bookingErrors";
 import { toIstanbulIso } from "@/lib/istanbulTime";
 import { notifyNewBooking } from "@/lib/notify";
 import { toMinutes } from "@/lib/slots";
@@ -54,6 +54,13 @@ export async function bookAppointment(_prev: BookingState, formData: FormData): 
     note: typeof raw.note === "string" ? raw.note : "",
     kvkk: raw.kvkk === "on",
   };
+
+  // Bal küpü doluysa bu bir bot: kaydetmiyoruz. Genel hata mesajı veriyoruz
+  // (botu "yakaladık" diye uyarmaya gerek yok; çok nadiren bir insansa da
+  // mesaj zaten "bizi arayın" diyor).
+  if (typeof raw.website === "string" && raw.website !== "") {
+    return { error: GENERIC, values };
+  }
 
   const parsed = schema.safeParse(raw);
   if (!parsed.success) {

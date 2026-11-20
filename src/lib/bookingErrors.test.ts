@@ -18,6 +18,14 @@ describe("bookingErrorMessage", () => {
     expect(bookingErrorMessage({ code: "P0001", message: "blocked_date" })).toMatch(/kapalı/);
   });
 
+  it("spam freni (0015): saatlik sınır → 'biraz sonra'", () => {
+    expect(bookingErrorMessage({ code: "P0001", message: "too_many_requests" })).toMatch(/biraz sonra/);
+  });
+
+  it("spam freni (0015): numara başına sınır → 'bizi arayın'", () => {
+    expect(bookingErrorMessage({ code: "P0001", message: "too_many_for_phone" })).toMatch(/bizi arayın/);
+  });
+
   it("tanımadığımız bir kod → genel mesaj", () => {
     expect(bookingErrorMessage({ code: "P0001", message: "yeni_bir_kod" })).toBe(GENERIC);
   });
