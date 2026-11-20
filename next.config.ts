@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { isStaging } from "./src/lib/staging";
 
 // .env.local, next.config'den ÖNCE yüklenir → adres burada okunabilir
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -53,6 +54,10 @@ const securityHeaders = [
   // (localhost'ta https yok). "preload" eklemedik: o, tarayıcıların listesine
   // kalıcı girmek demek; geri almak aylar sürer.
   ...(isDev ? [] : [{ key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains" }]),
+  // DENEME SÜRÜMÜ (SITE_STAGING=1): "bu adresteki HİÇBİR şeyi dizine ekleme".
+  // <meta> etiketinden farkı: başlık her cevaba eklenir (sayfalar, resimler,
+  // sitemap, robots.txt) → hiçbir dosya arama sonuçlarına düşmez.
+  ...(isStaging ? [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] : []),
 ];
 
 const nextConfig: NextConfig = {
