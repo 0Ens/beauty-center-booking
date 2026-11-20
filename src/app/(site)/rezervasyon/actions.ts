@@ -19,7 +19,9 @@ import { getServiceBySlug } from "@/data/services";
 import { bookingErrorMessage, GENERIC, SLOT_UNAVAILABLE } from "@/lib/bookingErrors";
 import { toIstanbulIso } from "@/lib/istanbulTime";
 import { notifyNewBooking } from "@/lib/notify";
+import { site } from "@/lib/site";
 import { toMinutes } from "@/lib/slots";
+import { isStaging, isTestBookingName } from "@/lib/staging";
 import { supabase } from "@/lib/supabase";
 import type { BookingState } from "./bookingState";
 
@@ -67,6 +69,16 @@ export async function bookAppointment(_prev: BookingState, formData: FormData): 
     return { fieldErrors: z.flattenError(parsed.error).fieldErrors, values };
   }
   const { islem, tarih, time, name, phone, note } = parsed.data;
+
+  // DENEME SÜRÜMÜ: adı "TEST" ile başlamayan randevu veritabanına
+  // HİÇ gitmez. Kontrol sunucuda olduğu için tarayıcıdan atlatılamaz.
+  // Gerçek açılışta SITE_STAGING silinince isStaging false olur, bu satır devreden çıkar.
+  if (isStaging && !isTestBookingName(name)) {
+    return {
+      error: `Bu sitenin deneme sürümüdür, online randevu henüz alınmıyor. Randevu için lütfen bizi arayın${site.phone ? `: ${site.phone}` : "."}`,
+      values,
+    };
+  }
 
   const service = await getServiceBySlug(islem);
   if (!service) return { error: "Bu işlem şu anda online randevuya açık değil.", values };

@@ -1,5 +1,21 @@
 import { describe, expect, it } from "vitest";
-import { isStagingFlag } from "./staging";
+import { isStagingFlag, isTestBookingName } from "./staging";
+
+describe("isTestBookingName", () => {
+  it("'TEST' ile başlayan ad → test randevusu", () => {
+    expect(isTestBookingName("TEST Ayşe")).toBe(true);
+    expect(isTestBookingName("test ayşe")).toBe(true);
+    expect(isTestBookingName("  TEST")).toBe(true);
+  });
+
+  it("gerçek bir ad → reddedilir", () => {
+    expect(isTestBookingName("Ayşe Yılmaz")).toBe(false);
+  });
+
+  it("'test' adın ortasında geçiyorsa yetmez", () => {
+    expect(isTestBookingName("Ayşe TEST")).toBe(false);
+  });
+});
 
 describe("isStagingFlag", () => {
   it("'1' ve 'true' → deneme sürümü", () => {
