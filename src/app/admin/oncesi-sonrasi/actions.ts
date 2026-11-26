@@ -14,6 +14,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { requireAdmin } from "@/lib/adminAuth";
 import { BEFORE_AFTER_BUCKET, beforeAfterPublicBase } from "@/lib/beforeAfterStorage";
+import { DEMO_LOCKED_MESSAGE } from "@/lib/demoAdmin";
 import { nowInIstanbul } from "@/lib/istanbulTime";
 import { PHOTO_MAX_BYTES } from "@/lib/photo";
 import { storagePathFromUrl } from "@/lib/storagePath";
@@ -60,7 +61,8 @@ async function checkPhoto(value: FormDataEntryValue | null, label: string): Prom
 
 /** Ekleme ve düzenleme aynı form; gizli "id" alanı boşsa yeni örnek */
 export async function saveBeforeAfter(_prev: BeforeAfterState, formData: FormData): Promise<BeforeAfterState> {
-  const { supabase } = await requireAdmin();
+  const { supabase, isDemoAccount } = await requireAdmin();
+  if (isDemoAccount) return { error: DEMO_LOCKED_MESSAGE };
 
   const parsed = schema.safeParse(readFields(formData));
   if (!parsed.success) return { error: parsed.error.issues[0].message };
@@ -150,7 +152,8 @@ export type DeleteState = { error?: string };
 
 /** Örneği VE fotoğraflarını tamamen siler (müşteri rızasını geri çekerse de bu kullanılır) */
 export async function deleteBeforeAfter(_prev: DeleteState, formData: FormData): Promise<DeleteState> {
-  const { supabase } = await requireAdmin();
+  const { supabase, isDemoAccount } = await requireAdmin();
+  if (isDemoAccount) return { error: DEMO_LOCKED_MESSAGE };
 
   const id = z.coerce.number().int().positive().safeParse(formData.get("id"));
   if (!id.success) return { error: "Geçersiz istek." };

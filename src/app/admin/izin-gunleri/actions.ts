@@ -18,6 +18,7 @@ import { z } from "zod";
 import { getActiveAppointmentsBetween, type AdminAppointment } from "@/data/adminAppointments";
 import { requireAdmin } from "@/lib/adminAuth";
 import { addDays } from "@/lib/bookingDay";
+import { DEMO_LOCKED_MESSAGE } from "@/lib/demoAdmin";
 import { nowInIstanbul, toIstanbulIso } from "@/lib/istanbulTime";
 import { leaveRangeError } from "@/lib/leaveRange";
 
@@ -39,13 +40,15 @@ const addSchema = z.object({
 });
 
 export async function addBlockedRange(_prev: AddLeaveState, formData: FormData): Promise<AddLeaveState> {
-  const { supabase } = await requireAdmin();
+  const { supabase, isDemoAccount } = await requireAdmin();
 
   const raw = {
     startsOn: String(formData.get("startsOn") ?? ""),
     endsOn: String(formData.get("endsOn") ?? ""),
     reason: String(formData.get("reason") ?? ""),
   };
+  if (isDemoAccount) return { error: DEMO_LOCKED_MESSAGE, values: raw };
+
   const parsed = addSchema.safeParse(raw);
   if (!parsed.success) {
     return { error: "Başlangıç tarihini seçin. Not en fazla 200 karakter olabilir.", values: raw };
@@ -97,7 +100,8 @@ export async function addBlockedRange(_prev: AddLeaveState, formData: FormData):
 export type DeleteLeaveState = { error?: string };
 
 export async function deleteBlockedRange(_prev: DeleteLeaveState, formData: FormData): Promise<DeleteLeaveState> {
-  const { supabase } = await requireAdmin();
+  const { supabase, isDemoAccount } = await requireAdmin();
+  if (isDemoAccount) return { error: DEMO_LOCKED_MESSAGE };
 
   const parsed = z.coerce.number().int().positive().safeParse(formData.get("id"));
   if (!parsed.success) return { error: "Geçersiz istek." };

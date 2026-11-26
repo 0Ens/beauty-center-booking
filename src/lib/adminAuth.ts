@@ -13,6 +13,8 @@ import { redirect } from "next/navigation";
 import { connection } from "next/server";
 import { cache } from "react";
 import { LOGIN_PATH } from "./adminRedirect";
+import { isDemoAdminEmail } from "./demoAdmin";
+import { isDemo } from "./siteMode";
 import { createSupabaseServerClient } from "./supabaseServer";
 
 export const UNAUTHORIZED_PATH = "/admin/yetkisiz";
@@ -36,5 +38,10 @@ export const requireAdmin = cache(async () => {
   if (isAdmin !== true) redirect(UNAUTHORIZED_PATH);
 
   const email = typeof data.claims.email === "string" ? data.claims.email : "";
-  return { supabase, email };
+
+  // Portföy demosundaki ortak hesap mı? (demoAdmin.ts) Öyleyse ayar kaydeden
+  // Server Action'lar "Demoda kapalı" döner. Asıl kilit veritabanında (RLS).
+  const isDemoAccount = isDemo && isDemoAdminEmail(email, process.env.DEMO_ADMIN_EMAIL);
+
+  return { supabase, email, isDemoAccount };
 });

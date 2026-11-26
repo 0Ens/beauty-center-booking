@@ -14,6 +14,7 @@ import { unstable_rethrow } from "next/navigation";
 import { getActiveAppointmentsBetween, type AdminAppointment } from "@/data/adminAppointments";
 import { requireAdmin } from "@/lib/adminAuth";
 import { weekdayOf } from "@/lib/bookingDay";
+import { DEMO_LOCKED_MESSAGE } from "@/lib/demoAdmin";
 import { dayNames, type WorkingHoursRow } from "@/lib/hours";
 import { toMinutes } from "@/lib/slots";
 import { fitsHours } from "@/lib/workingHoursRules";
@@ -40,8 +41,9 @@ function readForm(formData: FormData): HoursInput[] {
 }
 
 export async function saveWorkingHours(_prev: HoursState, formData: FormData): Promise<HoursState> {
-  const { supabase } = await requireAdmin();
+  const { supabase, isDemoAccount } = await requireAdmin();
   const values = readForm(formData);
+  if (isDemoAccount) return { error: DEMO_LOCKED_MESSAGE, values };
 
   // 1) Geçerlilik: açık günlerde iki saat de dolu ve açılış < kapanış
   for (const d of values) {

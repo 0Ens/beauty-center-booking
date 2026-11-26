@@ -15,6 +15,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { iconNames } from "@/components/serviceIcons";
 import { requireAdmin } from "@/lib/adminAuth";
+import { DEMO_LOCKED_MESSAGE } from "@/lib/demoAdmin";
 import { priceRangeError, slugify } from "@/lib/serviceRules";
 
 /** Formdaki değerler (hata olursa form bu haliyle geri gelir) */
@@ -83,8 +84,9 @@ const schema = z.object({
 
 /** Ekleme ve düzenleme aynı form; gizli "id" alanı boşsa yeni işlem */
 export async function saveService(_prev: ServiceState, formData: FormData): Promise<ServiceState> {
-  const { supabase } = await requireAdmin();
+  const { supabase, isDemoAccount } = await requireAdmin();
   const values = readForm(formData);
+  if (isDemoAccount) return { error: DEMO_LOCKED_MESSAGE, values };
 
   const parsed = schema.safeParse(values);
   if (!parsed.success) return { error: parsed.error.issues[0].message, values };
@@ -152,7 +154,8 @@ export type ActiveState = { error?: string };
 
 /** Pasife al / tekrar yayınla */
 export async function setServiceActive(_prev: ActiveState, formData: FormData): Promise<ActiveState> {
-  const { supabase } = await requireAdmin();
+  const { supabase, isDemoAccount } = await requireAdmin();
+  if (isDemoAccount) return { error: DEMO_LOCKED_MESSAGE };
 
   const parsed = z
     .object({ id: z.coerce.number().int().positive(), active: z.enum(["true", "false"]) })
