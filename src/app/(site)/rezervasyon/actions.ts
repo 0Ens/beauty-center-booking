@@ -17,11 +17,12 @@ import { z } from "zod";
 import { getDaySlots } from "@/data/availability";
 import { getServiceBySlug } from "@/data/services";
 import { bookingErrorMessage, GENERIC, SLOT_UNAVAILABLE } from "@/lib/bookingErrors";
+import { demoIdentity } from "@/lib/demoIdentity";
 import { toIstanbulIso } from "@/lib/istanbulTime";
 import { notifyNewBooking } from "@/lib/notify";
 import { site } from "@/lib/site";
+import { isDemo, isStaging, isTestBookingName } from "@/lib/siteMode";
 import { toMinutes } from "@/lib/slots";
-import { isStaging, isTestBookingName } from "@/lib/staging";
 import { supabase } from "@/lib/supabase";
 import type { BookingState } from "./bookingState";
 
@@ -64,15 +65,19 @@ export async function bookAppointment(_prev: BookingState, formData: FormData): 
     return { error: GENERIC, values };
   }
 
-  const parsed = schema.safeParse(raw);
+  // DEMO: formdan gelen ad, telefon ve not YOK SAYILIR; yerine sunucunun
+  // uydurduğu kimlik geçer. Kontrol sunucuda olduğu için tarayıcıdan atlatılamaz:
+  // biri formu kurcalayıp gerçek adını gönderse bile veritabanına o yazılmaz.
+  const input = isDemo ? { ...raw, ...demoIdentity(), note: "" } : raw;
+
+  const parsed = schema.safeParse(input);
   if (!parsed.success) {
     return { fieldErrors: z.flattenError(parsed.error).fieldErrors, values };
   }
   const { islem, tarih, time, name, phone, note } = parsed.data;
 
-  // DENEME SÜRÜMÜ: adı "TEST" ile başlamayan randevu veritabanına
-  // HİÇ gitmez. Kontrol sunucuda olduğu için tarayıcıdan atlatılamaz.
-  // Gerçek açılışta SITE_STAGING silinince isStaging false olur, bu satır devreden çıkar.
+  // DENEME SÜRÜMÜ: adı "TEST" ile başlamayan randevu veritabanına HİÇ gitmez.
+  // Gerçek açılışta SITE_MODE=production olunca bu satır devreden çıkar.
   if (isStaging && !isTestBookingName(name)) {
     return {
       error: `Bu sitenin deneme sürümüdür, online randevu henüz alınmıyor. Randevu için lütfen bizi arayın${site.phone ? `: ${site.phone}` : "."}`,
@@ -109,15 +114,18 @@ export async function bookAppointment(_prev: BookingState, formData: FormData): 
   // Salon sahibine mail: after() → müşteriye cevap gittikten SONRA çalışır.
   // Müşteri, mail sunucusunun cevabını beklemek zorunda kalmaz; mail
   // gönderilemese bile müşterinin randevusu zaten kaydedildi.
-  after(() =>
-    notifyNewBooking({
-      id: bookingId as number,
-      serviceName: service.name,
-      date: tarih,
-      time,
-      // ad, telefon, not BİLEREK yok (KVKK: e-postaya kişisel veri yazmıyoruz)
-    }),
-  );
+  // Demoda mail yok: bildirimi okuyacak bir salon sahibi yok.
+  if (!isDemo) {
+    after(() =>
+      notifyNewBooking({
+        id: bookingId as number,
+        serviceName: service.name,
+        date: tarih,
+        time,
+        // ad, telefon, not BİLEREK yok (KVKK: e-postaya kişisel veri yazmıyoruz)
+      }),
+    );
+  }
 
   // Başarılı: onay sayfasına. URL'de kişisel veri YOK (ad/telefon yok).
   // redirect() bir hata fırlatarak çalışır → try/catch içine konmamalı.

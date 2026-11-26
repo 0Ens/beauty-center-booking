@@ -1,9 +1,9 @@
 /*
  * OTURUMLU SUPABASE BAĞLANTISI (yönetim paneli için)
  *
- * Salon sahibi giriş yaptığında Supabase bir "oturum" verir; bunu tarayıcıda
+ * Yönetici giriş yaptığında Supabase bir "oturum" verir; bunu tarayıcıda
  * ÇEREZ (cookie) olarak saklıyoruz. Her istekte çerez sunucuya gelir, bu
- * bağlantı onu okur ve Supabase'e "bu istek salon sahibinden" der. RLS de buna
+ * bağlantı onu okur ve Supabase'e "bu istek yöneticiden" der. RLS de buna
  * göre randevuları gösterir (is_admin()).
  *
  * Her istek için YENİ bağlantı oluşturulmalı: paylaşılırsa bir kişinin

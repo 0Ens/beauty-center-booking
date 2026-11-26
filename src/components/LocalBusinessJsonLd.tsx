@@ -8,10 +8,10 @@ import { siteUrl } from "@/lib/siteUrl";
  * GOOGLE İÇİN İŞLETME KARTI (JSON-LD, schema.org "BeautySalon")
  *
  * Ekranda hiçbir şey göstermez; sayfaya <script type="application/ld+json">
- * olarak gömülür. Google bunu okuyup "bu sayfa Örnekşehir'de, şu saatlerde
+ * olarak gömülür. Google bunu okuyup "bu sayfa şu adreste, şu saatlerde
  * açık bir güzellik salonu" diye anlar.
  *
- * Asıl "Haritalarda çıkma" işi Google Business Profile'dan (Aşama 7);
+ * Asıl "Haritalarda çıkma" işi Google Business Profile'dan;
  * bu kart, site ile o profilin aynı işletme olduğunu doğrulamaya yardım eder.
  * Kontrol: https://search.google.com/test/rich-results (yayından sonra)
  */
@@ -25,8 +25,8 @@ export default async function LocalBusinessJsonLd() {
     name: site.name,
     description: site.description,
     url: siteUrl,
-    image: `${siteUrl}/logo.png`,
-    telephone: phone ? `+${phone}` : undefined, // "+905000000000"
+    image: `${siteUrl}/logo-mark.svg`,
+    telephone: phone ? `+${phone}` : undefined, // ör. "+905001234567"
     address: {
       "@type": "PostalAddress",
       streetAddress: site.postalAddress.street,

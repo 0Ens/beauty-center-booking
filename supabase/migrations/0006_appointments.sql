@@ -35,9 +35,9 @@ create table appointments (
 
 -- RLS açık ve HİÇ politika yok → "izin verilmeyen her şey yasaktır": kimse okuyamaz/yazamaz.
 -- Müşteri adı ve telefonu KİŞİSEL VERİDİR (KVKK); ziyaretçiler asla okuyamamalı.
--- Randevu oluşturma Aşama 4'te bir veritabanı fonksiyonu üzerinden olacak
--- (bitiş saati, çalışma saatleri ve izin günleri orada kontrol edilecek).
--- Salon sahibinin (admin) erişimi Aşama 5'te eklenecek.
+-- Randevu oluşturma bir veritabanı fonksiyonu üzerinden olur (0007_book_appointment;
+-- bitiş saati, çalışma saatleri ve izin günleri orada kontrol edilir).
+-- Yöneticinin (admin) erişimi 0009'da eklenir.
 alter table appointments enable row level security;
 
 revoke all on appointments from anon;

@@ -40,7 +40,7 @@ create policy "Admin öncesi/sonrası fotoğrafı silebilir"
 -- ---------------------------------------------------------------------
 -- 2) KVKK ONAYI
 -- ---------------------------------------------------------------------
--- Salon sahibi fotoğraf eklerken "müşteriden yazılı açık rıza aldım" kutusunu
+-- Yönetici fotoğraf eklerken "müşteriden yazılı açık rıza aldım" kutusunu
 -- işaretliyor; bu kolon o beyanın kaydı. Rızanın KENDİSİ (imzalı form)
 -- salonda saklanır; burası "işaretlendi mi, ne zaman (created_at)" kanıtı.
 -- Mevcut satırlar çizim örnekleri (gerçek kişi yok) → false kalabilir.

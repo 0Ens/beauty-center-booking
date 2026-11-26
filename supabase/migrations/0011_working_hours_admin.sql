@@ -1,6 +1,6 @@
 -- 0011: Çalışma saatlerini panelden düzenleme
 --
--- Haftada 7 gün → tabloda hep 7 satır. Salon sahibi satır EKLEMEZ veya SİLMEZ,
+-- Haftada 7 gün → tabloda hep 7 satır. Yönetici satır EKLEMEZ veya SİLMEZ,
 -- sadece var olan satırların saatlerini değiştirir. Bu yüzden:
 --   * sadece UPDATE yetkisi, o da sadece 3 kolon (weekday değiştirilemez:
 --     "Pazartesi" satırı yanlışlıkla "Salı" olamaz)

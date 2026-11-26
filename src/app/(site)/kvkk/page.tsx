@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import PageHeader from "@/components/PageHeader";
 import { site } from "@/lib/site";
+import { isDemo } from "@/lib/siteMode";
 
 export const metadata: Metadata = {
   title: "KVKK Aydınlatma Metni",
@@ -18,13 +19,14 @@ export const metadata: Metadata = {
  * Tebliğ'e göre metinde olması gerekenler: veri sorumlusunun kimliği, işleme amacı,
  * kimlere ve hangi amaçla aktarıldığı, toplama yöntemi ve hukuki sebebi, md. 11 hakları.
  *
- * TODO (yayından önce, avukatla):
- *   - site.legalName'i vergi levhasına göre kesinleştir
- *   - Supabase (Almanya) yurt dışı aktarımı için KVKK md. 9 dayanağını netleştir
- *     (standart sözleşme + Kurum'a 5 iş günü içinde bildirim). Netleşince
- *     "Aktarım" bölümüne dayanağı ekle.
- *   - Barındırma firması (Aşama 7) seçilince "Aktarım" bölümüne ekle
- *   - Metni bir hukukçuya okut; LAST_UPDATED'i güncelle
+ * ŞABLON NOTU: Bu metin bir başlangıç taslağıdır, hukuki görüş değildir.
+ * Gerçek bir salonda kullanmadan önce (bkz. docs/YENI-MUSTERI.md):
+ *   - site.legalName vergi levhasına göre yazılmalı
+ *   - Yurt dışındaki sunuculara (veritabanı, barındırma) aktarım için KVKK md. 9
+ *     dayanağı netleştirilip "Aktarım" bölümüne eklenmeli
+ *   - Metin bir hukukçuya okutulmalı, LAST_UPDATED güncellenmeli
+ *
+ * Demo modunda sayfanın başına "bu sitede kişisel veri toplanmaz" notu eklenir.
  */
 const LAST_UPDATED = "18 Kasım 2026";
 
@@ -37,6 +39,14 @@ export default function KvkkPage() {
       />
 
       <article className="container-page max-w-3xl space-y-8 py-12 leading-relaxed text-ink-soft">
+        {isDemo && (
+          <p role="note" className="rounded-2xl border border-brand-400 bg-blush-100 px-5 py-4 text-sm text-ink">
+            <strong>Demo site:</strong> {site.name} hayali bir işletmedir ve bu sitede kişisel veri toplanmaz.
+            Randevu formundaki ad ve telefon sunucu tarafından otomatik üretilir, not kaydedilmez, kayıtlar her
+            gece silinir. Aşağıdaki metin, şablonun gerçek bir salonda nasıl görüneceğini gösteren örnektir.
+          </p>
+        )}
+
         <p>
           Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu (&quot;KVKK&quot;) uyarınca, web sitemiz
           üzerinden randevu alırken paylaştığınız kişisel verilerin işlenmesi hakkında sizi bilgilendirmek için
@@ -96,8 +106,12 @@ export default function KvkkPage() {
           </p>
           <p>
             Randevu kayıtları, veritabanı hizmeti aldığımız <strong className="text-ink">Supabase Inc.</strong>
-            &apos;in Almanya&apos;daki (Frankfurt) sunucularında saklanır. Supabase, verileri yalnızca bizim
-            adımıza ve talimatımızla, veri işleyen sıfatıyla saklar.
+            &apos;in {site.kvkk.databaseLocation} bulunan sunucularında saklanır. Supabase, verileri yalnızca
+            bizim adımıza ve talimatımızla, veri işleyen sıfatıyla saklar.
+          </p>
+          <p>
+            Web sitemiz <strong className="text-ink">{site.kvkk.hostingProvider}</strong> altyapısında
+            barındırılır; form gönderdiğinizde bilgileriniz bu altyapı üzerinden veritabanına iletilir.
           </p>
           <p>
             Yeni randevu talebi geldiğinde bize bir e-posta bildirimi gönderilir. Bu e-postada adınız, telefon

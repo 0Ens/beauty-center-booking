@@ -3,7 +3,7 @@
 -- GİRİŞ YAPMAK ≠ YETKİLİ OLMAK
 --   Supabase'de giriş yapan herkes "authenticated" rolünü alır. Kayıt olmayı
 --   panelden kapatacağız ama yine de "giriş yaptıysa her şeyi görsün" demiyoruz.
---   Salon sahibinin hesabını ayrıca "admins" tablosuna yazıyoruz; randevuları sadece
+--   Yöneticinin hesabını ayrıca "admins" tablosuna yazıyoruz; randevuları sadece
 --   bu tabloda olan kullanıcı görebilir. (İki kilit: biri açık kalsa diğeri tutar.)
 
 create table public.admins (
@@ -28,7 +28,7 @@ security definer
 set search_path = ''
 as $$
   -- admins tablosunda, user_id'si giriş yapmış kullanıcının id'sine eşit
-  -- bir satır var mı? (proje sahibi yazdı)
+  -- bir satır var mı?
   -- Giriş yoksa auth.uid() null → "user_id = null" hiçbir satırla eşleşmez → false.
   select exists (
     select 1 from public.admins where user_id = (select auth.uid())

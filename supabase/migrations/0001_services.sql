@@ -29,7 +29,7 @@ create table services (
 --
 -- 1) GRANT (tablo düzeyi): "Bu rol bu tabloya hangi İŞLEMİ yapabilir?"
 --    anon          = giriş yapmamış herkes (sitenin ziyaretçileri)
---    authenticated = giriş yapmış kullanıcı (ileride salon sahibi)
+--    authenticated = giriş yapmış kullanıcı (yönetici)
 --
 -- 2) RLS POLICY (satır düzeyi): "İzin verilen işlemde HANGİ SATIRLARI görebilir?"
 --
@@ -50,4 +50,4 @@ create policy "Herkes aktif işlemleri görebilir"
 
 -- Not: insert / update / delete için hiçbir policy yok →
 -- RLS "izin verilmeyen her şey yasak" dediği için kimse değiştiremez.
--- Aşama 5'te salon sahibinin hesabına yazma izni ekleyeceğiz.
+-- Yöneticinin yazma izni sonraki migration'larda (0009+) eklenir.

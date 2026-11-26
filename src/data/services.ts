@@ -1,6 +1,6 @@
 /*
  * İŞLEMLER: artık VERİTABANINDAN (Supabase → services tablosu) geliyor.
- * Örnek veriler supabase/seed.sql dosyasında. Salon sahibi ileride panelden düzenleyecek.
+ * Örnek veriler supabase/seed.sql dosyasında. Salon sahibi panelden düzenler.
  */
 import { cacheLife, cacheTag } from "next/cache";
 import { isIconName, type ServiceIconName } from "@/components/serviceIcons";
@@ -64,16 +64,15 @@ export function toService(row: ServiceRow): Service {
  * hızlı açılır ve ücretsiz plandaki istek kotasını harcamayız.
  *
  * cacheLife("hours"): sonuç en geç ~1 saatte bir tazelenir.
- * cacheTag("services"): bu saklanan sonuca bir etiket veriyoruz. Aşama 5'te
- * salon sahibi panelden bir işlemi değiştirince "services etiketli her şeyi
- * yenile" diyeceğiz → değişiklik 1 saat beklemeden anında sitede görünecek.
+ * cacheTag("services"): bu saklanan sonuca bir etiket veriyoruz. Panelden
+ * bir işlem değişince "services etiketli her şeyi yenile" deriz
+ * → değişiklik 1 saat beklemeden anında sitede görünür.
  */
 export async function getServices(): Promise<Service[]> {
   "use cache";
   cacheLife("hours");
   cacheTag("services");
 
-  // Senin yazdığın sorgu 👇
   const { data, error } = await supabase
     .from("services")
     .select("*")

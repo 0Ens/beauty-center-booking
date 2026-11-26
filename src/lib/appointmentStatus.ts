@@ -27,7 +27,7 @@ export const actionLabel: Record<AppointmentStatus, string> = {
 
 /**
  * Bu durumdaki bir randevu hangi durumlara geçirilebilir?
- * Kurallar proje sahibi tarafından belirlendi:
+ * Kurallar:
  *   - onaylanmış randevu beklemeye alınmaz, sadece iptal edilir
  *     (müşteriye "onaylandı" denmişse geri "beklemede"ye dönmek kafa karıştırır)
  *   - iptal edilen randevu geri alınabilir (müşteri "vazgeçtim, geliyorum" derse).

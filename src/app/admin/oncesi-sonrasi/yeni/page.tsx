@@ -23,7 +23,7 @@ async function NewBeforeAfterContent() {
   const [services, entries] = await Promise.all([getAllServicesForAdmin(), getAllBeforeAfterForAdmin()]);
   const today = nowInIstanbul().date;
   /*
-   * Yeni örnek EN BAŞA gelsin (salon sahibinin isteği: en yeni sonuç ana sayfada görünsün).
+   * Yeni örnek EN BAŞA gelsin (en yeni sonuç ana sayfada görünsün).
    * En küçük sıra − 1; ama 0'ın altına inmez (form 0–999 kabul ediyor).
    * İkisi de 0'da kalırsa sorgu "sıra eşitse yeni önce" dediği için yine yeni öne geçer.
    * Hiç örnek yoksa 10: önüne eklemek için yer kalsın.

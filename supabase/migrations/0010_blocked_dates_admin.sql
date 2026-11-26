@@ -11,7 +11,7 @@
 --   boşaltabilir. services / before_after / working_hours tablolarında bu yetkiyi
 --   anon'dan almıştık ama authenticated'da hâlâ duruyordu.
 --
--- Kayıt olma kapalı ve tek hesap salon sahibinde olduğu için bugün kimse bunu kullanamaz.
+-- Kayıt olma kapalı ve tek hesap yöneticide olduğu için bugün kimse bunu kullanamaz.
 -- Ama güvenlik "bugün kimse yok" varsayımına dayanmamalı (iki kilit kuralı).
 
 -- ---------------------------------------------------------------------

@@ -17,7 +17,7 @@ import type { Range } from "./slots";
 /** Bir günün çalışma saati, dakika cinsinden */
 export type DayHours = { closed: boolean; open: number; close: number };
 
-// Kural proje sahibi tarafından yazıldı:
+// Kural:
 // gün açık olmalı, randevu açılışta ya da sonra başlamalı, kapanışta ya da önce bitmeli
 export function fitsHours(appt: Range, day: DayHours): boolean {
   return !day.closed && appt.start >= day.open && appt.end <= day.close;

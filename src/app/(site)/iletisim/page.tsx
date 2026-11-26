@@ -82,7 +82,6 @@ export default async function ContactPage() {
             WhatsApp ile Yazın
           </a>
         )}
-        {/* Aşama 6'da: Google Haritalar gömülü harita */}
       </section>
     </>
   );

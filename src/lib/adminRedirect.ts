@@ -11,7 +11,6 @@ export const ADMIN_HOME = "/admin";
 export function adminRedirect(pathname: string, isLoggedIn: boolean): string | null {
   const isLoginPage = pathname === LOGIN_PATH;
 
-  // (koşullar proje sahibi tarafından yazıldı)
   // 1) Giriş yapmamış biri panelin bir sayfasını açmaya çalışıyor → giriş sayfasına.
   //    !isLoginPage şart: yoksa giriş sayfası kendine yönlendirir → sonsuz döngü.
   if (!isLoggedIn && !isLoginPage) return LOGIN_PATH;

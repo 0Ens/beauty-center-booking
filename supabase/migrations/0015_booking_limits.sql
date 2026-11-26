@@ -36,7 +36,7 @@ begin
   --    - İki tarafı da rakama indiriyoruz: "0532 123 45 67" = "05321234567"
   --      (aşağıdaki index de tam bu ifadeyi indeksliyor → sayım hızlı)
   --    - Geçmiş randevular sayılmaz: düzenli müşteri yıllarca gelebilir
-  --    - İptaller sayılmaz: salon sahibi iptal ettiyse müşteri yeniden alabilmeli
+  --    - İptaller sayılmaz: salon iptal ettiyse müşteri yeniden alabilmeli
   if (
     select count(*) from public.appointments
     where regexp_replace(phone, '\D', '', 'g') = regexp_replace(new.phone, '\D', '', 'g')

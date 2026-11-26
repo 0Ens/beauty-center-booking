@@ -25,10 +25,12 @@ type Props = {
   date: string;
   dateLabel: string; // "24 Kasım 2026 Salı"
   slots: string[]; // ["10:00", "10:15", ...]
+  /** Demo sitesi: ad/telefon/not kilitli; sunucu uydurma kimlik yazar (siteMode.ts) */
+  demo?: boolean;
 };
 
 const inputClass =
-  "mt-1 w-full rounded-xl border border-blush-300 bg-white px-4 py-2.5 text-base outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-400/40";
+  "mt-1 w-full rounded-xl border border-blush-300 bg-white px-4 py-2.5 text-base outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-400/40 disabled:cursor-not-allowed disabled:bg-blush-50 disabled:text-ink-soft";
 
 /** Alanın altındaki kırmızı yazı (aria-describedby ile alana bağlı → ekran okuyucu da okur) */
 function FieldError({ state, name }: { state: BookingState; name: BookingFieldName }) {
@@ -41,7 +43,7 @@ function FieldError({ state, name }: { state: BookingState; name: BookingFieldNa
   );
 }
 
-export default function BookingForm({ slug, date, dateLabel, slots }: Props) {
+export default function BookingForm({ slug, date, dateLabel, slots, demo = false }: Props) {
   const [state, formAction, pending] = useActionState(bookAppointment, initialBookingState);
   const values = state.values;
 
@@ -97,6 +99,18 @@ export default function BookingForm({ slug, date, dateLabel, slots }: Props) {
       <fieldset className="space-y-5">
         <StepHeading n={4} title="Bilgileriniz" as="legend" />
 
+        {/*
+          DEMO: alanlar "disabled" → tarayıcı bu alanları hiç göndermez.
+          Kilit sadece kolaylık; asıl güvence sunucuda (actions.ts formdan
+          gelen adı/telefonu demo modunda zaten yok sayıyor).
+        */}
+        {demo && (
+          <p className="rounded-2xl bg-blush-100 px-5 py-3 text-sm">
+            Bu bir demo: ad ve telefon sizin yerinize otomatik üretilir (ör. &quot;Demo Misafir 4821&quot;).
+            Gerçek bilgilerinizi girmenize gerek yok.
+          </p>
+        )}
+
         <div>
           <label htmlFor="name" className="text-sm font-medium">
             Adınız Soyadınız
@@ -108,7 +122,8 @@ export default function BookingForm({ slug, date, dateLabel, slots }: Props) {
             required
             minLength={2}
             maxLength={100}
-            defaultValue={values?.name}
+            disabled={demo}
+            defaultValue={demo ? "Demo Misafir (otomatik)" : values?.name}
             aria-invalid={!!state.fieldErrors?.name}
             aria-describedby="name-error"
             className={inputClass}
@@ -128,7 +143,8 @@ export default function BookingForm({ slug, date, dateLabel, slots }: Props) {
             autoComplete="tel"
             placeholder="0532 123 45 67"
             required
-            defaultValue={values?.phone}
+            disabled={demo}
+            defaultValue={demo ? "0500 000 …" : values?.phone}
             aria-invalid={!!state.fieldErrors?.phone}
             aria-describedby="phone-error"
             className={inputClass}
@@ -145,7 +161,9 @@ export default function BookingForm({ slug, date, dateLabel, slots }: Props) {
             name="note"
             rows={3}
             maxLength={500}
-            defaultValue={values?.note}
+            disabled={demo}
+            placeholder={demo ? "Demoda not kaydedilmez" : undefined}
+            defaultValue={demo ? "" : values?.note}
             aria-describedby="note-hint note-error"
             className={inputClass}
           />

@@ -26,7 +26,7 @@ export function storagePathFromUrl(url: string, base: string): string | null {
   // Bizim kovanın adresiyle başlamıyorsa Storage'da değil
   if (!url.startsWith(base)) return null;
 
-  // Base'in uzunluğu kadar karakteri atla → geriye dosya adı kalır
+  // base'in uzunluğu kadar karakteri atla → geriye dosya adı kalır
   const path = url.slice(base.length);
 
   // Adres tam olarak kovanın kendisiyse dosya adı yok

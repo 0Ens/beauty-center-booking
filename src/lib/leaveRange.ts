@@ -21,7 +21,6 @@ type LeaveInput = {
   today: string; // Türkiye'de bugün
 };
 
-// Kurallar proje sahibi tarafından yazıldı
 export function leaveRangeError({ startsOn, endsOn, today }: LeaveInput): string | null {
   // 1) Ters sıra
   if (endsOn < startsOn) return "Bitiş tarihi başlangıç tarihinden önce olamaz.";

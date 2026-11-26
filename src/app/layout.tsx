@@ -4,6 +4,11 @@ import { site } from "@/lib/site";
 import { siteUrl } from "@/lib/siteUrl";
 import "./globals.css";
 
+// ==================== MARKA AYARLARI: FONTLAR ====================
+// Başlık (serif), metin (sans) ve logo (el yazısı) fontları. Başka bir Google
+// fontuna geçmek için import'u ve aşağıdaki tanımı değiştirmek yeterli;
+// CSS değişken adları (--font-...) aynı kalırsa sitenin geri kalanı etkilenmez.
+//
 // next/font fontları build sırasında indirip siteyle birlikte sunar:
 // Google'a ayrı istek gitmez (hız + gizlilik) ve sayfa yüklenirken yazılar zıplamaz.
 // "latin-ext" alt kümesi Türkçe karakterler (ş, ğ, ı, İ) için ŞART.
@@ -20,7 +25,7 @@ const jost = Jost({
   display: "swap",
 });
 
-// Markanın logosunda (Canva) kullanılan font: Luxurious Script.
+// Logodaki el yazısı font: Luxurious Script.
 // El yazısı (script) fontlar SADECE logo ve kısa vurgularda kullanılır:
 // uzun metinde okunması zordur. Tek ağırlığı (400) var; "font-bold" verilirse
 // tarayıcı sahte kalınlık üretir ve çirkin görünür.

@@ -10,7 +10,7 @@
 -- (defense in depth): RLS bir gün yanlışlıkla kapatılsa bile ziyaretçi
 -- yine yazamasın.
 --
--- authenticated'a dokunmuyoruz: Aşama 5'te salon sahibi (giriş yapmış kullanıcı)
+-- authenticated'a dokunmuyoruz: ileride yönetici (giriş yapmış kullanıcı)
 -- bu tabloyu düzenleyecek. Onun yetkilerini RLS policy'leriyle sınırlayacağız.
 -- =====================================================================
 

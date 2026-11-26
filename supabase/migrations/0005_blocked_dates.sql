@@ -15,7 +15,7 @@ create table blocked_dates (
   id bigint generated always as identity primary key,
   starts_on date not null,
   ends_on date not null,
-  reason text,                    -- isteğe bağlı; sadece salon sahibi görecek
+  reason text,                    -- isteğe bağlı; sadece yönetici görür
   created_at timestamptz not null default now(),
   check (starts_on <= ends_on)    -- <= : bir günlük izinde başlangıç = bitiş
 );

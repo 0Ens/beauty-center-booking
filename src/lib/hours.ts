@@ -6,7 +6,7 @@
  *   → "Pazartesi – Cumartesi: 10:00 – 19:00", "Pazar: Kapalı"
  *
  * Bu dosyada veritabanı ya da Next.js yok: sadece veri alıp veri döndüren
- * "saf" fonksiyonlar. Bu yüzden test yazması çok kolay (Aşama 4'te Vitest).
+ * "saf" fonksiyonlar. Bu yüzden test yazması çok kolay (Vitest ile).
  */
 
 /** Veritabanındaki satır (working_hours) */
@@ -41,7 +41,7 @@ export function mondayFirst(weekday: number) {
 }
 
 /*
- * Birleştirme (proje sahibinin yazdığı mantık):
+ * Birleştirme mantığı:
  * Günleri sırayla oku. Bugünün saati SON grubun saatiyle aynıysa grubu uzat,
  * değilse yeni grup başlat. Sadece son grupla karşılaştırdığımız için
  * "ardışık olma" şartı kendiliğinden sağlanır.

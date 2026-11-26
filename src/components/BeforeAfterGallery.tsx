@@ -20,7 +20,6 @@ type Props = {
 export default function BeforeAfterGallery({ items, categories }: Props) {
   const kategoriler = ["Tümü", ...categories];
 
-  // Senin yazdığın kısım 👇
   // 1. Seçili kategoriyi HATIRLA (başlangıçta "Tümü")
   const [kategori, setKategori] = useState("Tümü");
 
@@ -63,7 +62,7 @@ export default function BeforeAfterGallery({ items, categories }: Props) {
           ))}
         </div>
       ) : (
-        // Aşama 3'te veriler panelden gelecek; bir kategoride henüz örnek
+        // Veriler panelden gelir; bir kategoride henüz örnek
         // yoksa boş ekran yerine açıklama gösterelim.
         <p className="py-16 text-center text-ink-soft">Bu kategoride henüz örnek yok.</p>
       )}

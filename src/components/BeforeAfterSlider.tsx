@@ -7,7 +7,7 @@
  *  2. Üstteki görsel clip-path ile sağdan kırpılıyor → sadece sol tarafı görünüyor.
  *     yuzde = 30 ise öncesinin soldaki %30'u görünür, kalan %70'te alttaki
  *     "sonrası" görünür. Çizgi tam bu sınırda duruyor.
- *  3. Fare/parmak hareket ettikçe senin yazdığın hesaplaYuzde() yeni konumu
+ *  3. Fare/parmak hareket ettikçe hesaplaYuzde() (src/lib/slider.ts) yeni konumu
  *     buluyor, state güncelleniyor, React kırpmayı ve çizgiyi yeniden çiziyor.
  */
 import Image from "next/image";
@@ -41,7 +41,7 @@ export default function BeforeAfterSlider({
   function konumuGuncelle(clientX: number) {
     const kutu = kutuRef.current;
     if (!kutu) return;
-    // getBoundingClientRect(): kutunun ekrandaki yeri (left, width...) = senin "rect"
+    // getBoundingClientRect(): kutunun ekrandaki yeri (left, width...) = hesaplaYuzde'nin beklediği "rect"
     setYuzde(hesaplaYuzde(clientX, kutu.getBoundingClientRect()));
   }
 
@@ -51,7 +51,7 @@ export default function BeforeAfterSlider({
    *
    * setPointerCapture: "Bu parmak/fare bırakılana kadar tüm hareketleri BANA
    * gönder." Böylece fare kutunun dışına çıksa bile sürükleme devam eder;
-   * senin sınırlaman (0–100) da tam bu durumda işe yarıyor.
+   * hesaplaYuzde'deki 0–100 sınırlaması da tam bu durumda işe yarıyor.
    */
   function handlePointerDown(e: PointerEvent<HTMLDivElement>) {
     e.currentTarget.setPointerCapture(e.pointerId);

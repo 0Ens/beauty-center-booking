@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <!-- Favicon: logo-mark.svg'nin kalın çizgili, zeminli hâli (küçük boyutta ince çizgi kaybolur) -->
+  <rect width="120" height="120" rx="28" fill="#fae1e9"/>
+  <g fill="none" stroke="#a8466a" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M60 22C72 38 74 58 60 80C46 58 48 38 60 22Z"/>
+    <path d="M55 82C38 78 26 62 26 44C42 50 53 64 55 82Z"/>
+    <path d="M65 82C82 78 94 62 94 44C78 50 67 64 65 82Z"/>
+    <path d="M30 96C50 104 70 104 90 96"/>
+  </g>
+</svg>

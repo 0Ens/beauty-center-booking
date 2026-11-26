@@ -5,7 +5,7 @@
  * Adres ve anahtar koda yazılmıyor; .env.local'dan (ortam değişkenleri) okunuyor.
  *
  * Bu bağlantı "anon" rolüyle çalışır: sadece RLS'nin ziyaretçiye
- * izin verdiklerini görebilir. Salon sahibinin paneli için oturum (cookie) bilen
+ * izin verdiklerini görebilir. Yönetim paneli için oturum (cookie) bilen
  * ayrı bağlantı: supabaseServer.ts
  */
 import { createClient } from "@supabase/supabase-js";

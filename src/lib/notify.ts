@@ -12,10 +12,11 @@
 import "server-only";
 import { Resend } from "resend";
 import { bookingEmailSubject, bookingEmailText, type BookingSummary } from "./bookingEmail";
+import { site } from "./site";
 
-// Kendi alan adımızı doğrulayana kadar (Aşama 7) Resend'in test adresinden gönderiyoruz.
+// Kendi alan adımızı doğrulayana kadar Resend'in test adresinden gönderiyoruz.
 // Bu adresle mail SADECE Resend hesabını açan e-postaya gidebilir.
-const DEFAULT_FROM = "Demo Güzellik Randevu <onboarding@resend.dev>";
+const DEFAULT_FROM = `${site.emailFromName} <onboarding@resend.dev>`;
 
 export async function notifyNewBooking(booking: BookingSummary): Promise<void> {
   const apiKey = process.env.RESEND_API_KEY;

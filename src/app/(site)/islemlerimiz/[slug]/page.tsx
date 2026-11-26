@@ -74,7 +74,6 @@ async function ServiceDetail({ params }: Pick<PageProps<"/islemlerimiz/[slug]">,
               </li>
             ))}
           </ul>
-          {/* Aşama 3'te: bu işleme ait öncesi/sonrası örnekleri burada listelenecek */}
         </div>
 
         <aside className="h-fit rounded-3xl border border-blush-200 bg-white p-8 shadow-[0_10px_40px_-20px_rgba(163,83,106,0.35)] lg:sticky lg:top-40">

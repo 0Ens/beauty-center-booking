@@ -1,6 +1,6 @@
 /*
  * REZERVASYON İÇİN MÜSAİTLİK
- * Veritabanındaki parçaları toplar ve proje sahibinin yazdığı saf
+ * Veritabanındaki parçaları toplar ve src/lib'deki saf
  * fonksiyonlara verir:
  *   isBookableDay    → bu güne hiç randevu verilebilir mi?
  *   getAvailableSlots → o günün boş başlangıç saatleri
@@ -21,7 +21,7 @@ import { getAvailableSlots, toMinutes } from "@/lib/slots";
 import { getBlockedRanges } from "./blockedDates";
 import { getWorkingHoursRows } from "./workingHours";
 
-/** Bugünden en az bu kadar dakika sonrasına randevu alınabilir (salon sahibinin hazırlanma payı) */
+/** Bugünden en az bu kadar dakika sonrasına randevu alınabilir (salonun hazırlanma payı) */
 const MIN_NOTICE_MINUTES = 60;
 
 export type BookableDay = { date: string; bookable: boolean };

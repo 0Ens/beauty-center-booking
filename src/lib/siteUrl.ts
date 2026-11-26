@@ -1,5 +1,5 @@
 /*
- * SİTENİN TAM ADRESİ (ör. "https://salonadi.com.tr")
+ * SİTENİN TAM ADRESİ (ör. "https://ornek-salon.com.tr")
  *
  * Neden lazım? Sayfa içindeki linkler "/islemlerimiz" gibi göreli olabilir,
  * ama site DIŞINA giden her şey tam adres ister:
@@ -7,7 +7,7 @@
  *   - paylaşım önizlemesi (og:image): WhatsApp/Instagram görseli bu adresten çeker
  *   - Google'a verdiğimiz işletme bilgisi (JSON-LD)
  *
- * Henüz alan adımız yok (Aşama 7). O yüzden adres bir ortam değişkeninden
+ * Adres bir ortam değişkeninden
  * geliyor; boşsa geliştirme adresi kullanılıyor. Yayına alırken barındırma
  * panelinde NEXT_PUBLIC_SITE_URL'yi gerçek adresle doldurmak ŞART.
  */

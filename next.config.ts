@@ -1,5 +1,5 @@
 import type { NextConfig } from "next";
-import { isStaging } from "./src/lib/staging";
+import { isNoIndex } from "./src/lib/siteMode";
 
 // .env.local, next.config'den ÖNCE yüklenir → adres burada okunabilir
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -22,7 +22,7 @@ const isDev = process.env.NODE_ENV === "development";
  *   base-uri 'self'         → biri sayfaya <base> sokup linkleri başka yere çeviremesin
  *   form-action 'self'      → formlar sadece bize gönderilebilir
  *   frame-ancestors 'none'  → site başka bir sitenin içine (iframe) gömülemez.
- *                             "Clickjacking"e karşı: görünmez bir çerçevede salon sahibinin
+ *                             "Clickjacking"e karşı: görünmez bir çerçevede yönetim
  *                             paneline tıklatma hilesi yapılamaz.
  *   upgrade-insecure-requests → http:// ile istenen her şey https:// ile istenir
  *                             (geliştirmede yok: telefon http://172.20.10.x ile açıyor)
@@ -54,10 +54,10 @@ const securityHeaders = [
   // (localhost'ta https yok). "preload" eklemedik: o, tarayıcıların listesine
   // kalıcı girmek demek; geri almak aylar sürer.
   ...(isDev ? [] : [{ key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains" }]),
-  // DENEME SÜRÜMÜ (SITE_STAGING=1): "bu adresteki HİÇBİR şeyi dizine ekleme".
+  // DENEME ve DEMO (SITE_MODE=staging|demo): "bu adresteki HİÇBİR şeyi dizine ekleme".
   // <meta> etiketinden farkı: başlık her cevaba eklenir (sayfalar, resimler,
   // sitemap, robots.txt) → hiçbir dosya arama sonuçlarına düşmez.
-  ...(isStaging ? [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] : []),
+  ...(isNoIndex ? [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] : []),
 ];
 
 const nextConfig: NextConfig = {

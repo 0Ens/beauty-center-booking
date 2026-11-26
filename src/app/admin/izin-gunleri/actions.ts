@@ -2,7 +2,7 @@
 /*
  * İZİN GÜNÜ EKLE / SİL (Server Actions)
  *
- * Ekleme kuralı (proje sahibinin kararı, seçenek A):
+ * Ekleme kuralı:
  *   İzin tarihlerinde bekleyen veya onaylı randevu varsa izin EKLENMEZ.
  *   Salon sahibi önce o müşterilere haber verip randevuları iptal eder.
  *   (Kendiliğinden iptal yok: müşteriye mesajı site değil salon sahibi gönderiyor.)

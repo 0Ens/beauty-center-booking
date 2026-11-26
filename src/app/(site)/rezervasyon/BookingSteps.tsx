@@ -18,6 +18,7 @@ import { getBookableDays, getDaySlots } from "@/data/availability";
 import { getServices } from "@/data/services";
 import { weekdayOf } from "@/lib/bookingDay";
 import { formatDayLong, formatMonthShort } from "@/lib/format";
+import { isDemo } from "@/lib/siteMode";
 import { toTime } from "@/lib/slots";
 import BookingForm from "./BookingForm";
 import StepHeading from "./StepHeading";
@@ -136,7 +137,14 @@ export default async function BookingSteps({ searchParams }: { searchParams: Pro
         <section id="saat" className="scroll-mt-28">
           {slots.length > 0 ? (
             // key: gün değişince form sıfırdan başlasın (eski günün hata mesajı kalmasın)
-            <BookingForm key={date} slug={service.slug} date={date} dateLabel={formatDayLong(date)} slots={slots} />
+            <BookingForm
+              key={date}
+              slug={service.slug}
+              date={date}
+              dateLabel={formatDayLong(date)}
+              slots={slots}
+              demo={isDemo}
+            />
           ) : (
             <>
               <StepHeading n={3} title="Saat seçin" />

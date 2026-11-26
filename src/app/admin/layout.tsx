@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { site } from "@/lib/site";
 
 /*
  * Panelin kendi düzeni: sitenin menüsü, footer'ı ve WhatsApp balonu yok.
@@ -18,7 +19,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       <header className="border-b border-blush-200 bg-white/80">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3">
           <Link href="/admin" className="font-script text-3xl text-brand-700">
-            Demo
+            {site.logo.title}
           </Link>
           <span className="text-xs tracking-widest text-ink-soft uppercase">Yönetim Paneli</span>
         </div>

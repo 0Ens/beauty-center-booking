@@ -1,6 +1,6 @@
 -- =====================================================================
--- ÖRNEK VERİ (seed): src/data/services.ts'deki geçici işlemler.
--- Gerçek işlem listesi gelince salon sahibi panelden düzenleyecek.
+-- ÖRNEK VERİ (seed): demo ve yeni kurulumlar için genel işlemler.
+-- Salon sahibi işlemleri panelden düzenler.
 -- Fiyatlar (price_min/max) şimdilik boş → sitede "fiyat için arayın".
 -- sort_order 10, 20, 30... → araya yeni işlem eklemek kolay olsun (ör. 15).
 -- =====================================================================

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { CalendarHeart } from "lucide-react";
+import { site } from "@/lib/site";
 import logoMark from "../../../public/logo-mark.svg";
 
 export default function Hero() {
@@ -12,7 +13,7 @@ export default function Hero() {
 
       <div className="container-page relative grid items-center gap-12 py-16 md:grid-cols-2 md:py-24">
         <div className="text-center md:text-left">
-          <p className="eyebrow">Demo Güzellik Merkezi</p>
+          <p className="eyebrow">{site.name}</p>
           <h1 className="mt-4 font-serif text-5xl leading-[1.05] font-semibold sm:text-6xl">
             Cildinizin hak ettiği <span className="font-script text-[1.3em] font-normal text-brand-700">özen</span>
           </h1>
@@ -30,7 +31,7 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* TODO: Salon ya da uygulama fotoğrafı gelince bu kutu fotoğrafla değişecek */}
+        {/* Salon fotoğrafı varsa bu kutu fotoğrafla değiştirilebilir; yoksa logo amblemi görünür */}
         <div aria-hidden className="relative mx-auto aspect-[4/5] w-full max-w-sm">
           <div className="absolute inset-0 rotate-6 rounded-[3rem] bg-blush-300/50" />
           <div className="absolute inset-0 flex items-center justify-center rounded-[3rem] border border-white bg-linear-to-br from-white via-blush-100 to-blush-300 shadow-xl">

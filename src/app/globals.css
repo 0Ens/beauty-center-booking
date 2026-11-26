@@ -1,19 +1,20 @@
 @import "tailwindcss";
 
 /*
- * TASARIM TOKEN'LARI
- * Sitedeki tüm renkler buradan gelir. Bir tonu değiştirmek istersen
- * sadece burayı değiştirmen yeterli: `bg-brand-700`, `text-ink` gibi
+ * ==================== MARKA AYARLARI: RENKLER ====================
+ * Sitedeki tüm renkler buradan gelir. Yeni bir salonun renklerine geçmek
+ * için sadece bu bloğu değiştirmek yeterli: `bg-brand-700`, `text-ink` gibi
  * Tailwind sınıfları otomatik olarak yeni değeri kullanır.
+ * Değiştirirsen app/opengraph-image.tsx ve app/icon.svg'deki renk kopyalarını da güncelle.
  */
 @theme {
-  /* Arka plan pembeleri (açıktan koyuya) */
+  /* Arka plan tonları (açıktan koyuya) */
   --color-blush-50: #fdf0f4;
   --color-blush-100: #fae1e9;
   --color-blush-200: #f5cbd8;
   --color-blush-300: #eeadc1;
 
-  /* Marka pembesi — 500 tonu logodaki çizgi rengiyle aynı (#db7093).
+  /* Marka rengi — 500 tonu amblemdeki çizgi rengiyle aynı (public/logo-mark.svg).
      Beyaz yazı içeren butonlarda en az 700 kullan (okunabilirlik / kontrast) */
   --color-brand-400: #e693ad;
   --color-brand-500: #db7093;

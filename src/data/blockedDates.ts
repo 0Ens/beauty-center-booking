@@ -9,7 +9,7 @@ import type { BlockedRange } from "@/lib/bookingDay";
 export async function getBlockedRanges(): Promise<BlockedRange[]> {
   "use cache";
   cacheLife("hours");
-  cacheTag("blocked-dates"); // Aşama 5: salon sahibi izin ekleyince bu etiket yenilenecek
+  cacheTag("blocked-dates"); // panelden izin eklenince bu etiket yenilenir
 
   const { data, error } = await supabase.from("blocked_dates").select("starts_on, ends_on");
 
