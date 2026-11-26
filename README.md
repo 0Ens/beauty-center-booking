@@ -3,7 +3,7 @@
 **An online booking system and admin panel for a small beauty salon, built with Next.js 16 and Supabase (PostgreSQL).**
 Visitors pick a treatment, a day and a free time slot. The salon owner approves or cancels requests from a phone-friendly admin panel, and also manages treatments, opening hours, days off and a before/after gallery there.
 
-> 🔗 **Live demo:** _link coming with the first deploy_ · 🇹🇷 [Türkçe özet aşağıda](#türkçe-özet)
+> 🔗 **Live demo:** [beauty-center-booking-five.vercel.app](https://beauty-center-booking-five.vercel.app) · 🇹🇷 [Türkçe özet aşağıda](#türkçe-özet)
 
 ![Home page](docs/screenshots/home.png)
 
@@ -260,7 +260,7 @@ The code is public so it can be read and evaluated. Please ask before reusing it
 - **Yetkilendirme:** RLS ile; admin randevunun sadece durum sütununu değiştirebiliyor.
 - **KVKK (kişisel verilerin korunması):** 2 yıl sonra otomatik anonimleştirme, fotoğraflardan konum bilgisinin silinmesi ve demoda kişisel veri hiç toplanmaması.
 
-**Demo:**
+**Demo:** [beauty-center-booking-five.vercel.app](https://beauty-center-booking-five.vercel.app)
 - Randevular gerçekten veritabanına yazılıyor, ama ad ve telefonu sunucu ve veritabanı uyduruyor. Kayıtlar her gece sıfırlanıyor.
 - `/admin` sayfasındaki **"Demo olarak gir"** düğmesiyle şifresiz panele girilebiliyor. Randevu onaylama ve iptal açık; diğer ayarlar veritabanı seviyesinde RESTRICTIVE RLS politikalarıyla kilitli.
 
